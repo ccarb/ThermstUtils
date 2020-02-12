@@ -14,263 +14,240 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTabWidget" name="displayTabs">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>30</y>
-      <width>471</width>
-      <height>521</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="tabPosition">
-     <enum>QTabWidget::South</enum>
-    </property>
-    <property name="tabShape">
-     <enum>QTabWidget::Rounded</enum>
-    </property>
-    <property name="currentIndex">
-     <number>1</number>
-    </property>
-    <property name="elideMode">
-     <enum>Qt::ElideNone</enum>
-    </property>
-    <widget class="QWidget" name="logTab">
-     <attribute name="title">
-      <string>Log</string>
-     </attribute>
-     <widget class="QTextBrowser" name="logDisplayBox">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>256</width>
-        <height>201</height>
-       </rect>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
       </property>
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2';&quot;&gt;Conectado con éxito&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
       </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="graphTab">
-     <attribute name="title">
-      <string>Graph</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="settingsButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Settings</string>
-    </property>
-   </widget>
-   <widget class="QDockWidget" name="settingsDock">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>300</width>
-      <height>541</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>300</width>
-      <height>38</height>
-     </size>
-    </property>
-    <property name="features">
-     <set>QDockWidget::DockWidgetClosable</set>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::BottomDockWidgetArea|Qt::LeftDockWidgetArea</set>
-    </property>
-    <property name="windowTitle">
-     <string>Settings</string>
-    </property>
-    <widget class="QWidget" name="settingsDockContents">
-     <widget class="QPushButton" name="stopButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>490</y>
-        <width>301</width>
-        <height>23</height>
-       </rect>
+      <property name="locale">
+       <locale language="Slovak" country="Slovakia"/>
       </property>
-      <property name="text">
-       <string>Stop</string>
+      <property name="title">
+       <string>Settings</string>
       </property>
-     </widget>
-     <widget class="QWidget" name="horizontalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>-1</x>
-        <y>0</y>
-        <width>301</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="modeSelectorLayout">
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="modeSelectorLabel">
+        <layout class="QHBoxLayout" name="modeSelectorLayout">
+         <item>
+          <widget class="QLabel" name="modeSelectorLabel">
+           <property name="text">
+            <string>Mode:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="modeSelectorHotButton">
+           <property name="text">
+            <string>Hot</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="modeSelectorColdButton">
+           <property name="text">
+            <string>Cold</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="hotTemperatureLabel">
+           <property name="text">
+            <string>Hot Temperature:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="hotTemperatureInputBox">
+           <property name="minimum">
+            <number>-10</number>
+           </property>
+           <property name="maximum">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="hotTempCelsiusLabel">
+           <property name="text">
+            <string>ºC</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="coldTemperatureLabel">
+           <property name="text">
+            <string>Cold Temperature:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="coldTemperatureInputBox">
+           <property name="minimum">
+            <number>-10</number>
+           </property>
+           <property name="maximum">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="coldTempCelsiusLabel">
+           <property name="text">
+            <string>ºC</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="restorePresetsButton">
          <property name="text">
-          <string>Mode:</string>
+          <string>Restore presets</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="modeSelectorHotButton">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="startButton">
          <property name="text">
-          <string>Hot</string>
+          <string>Start</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="modeSelectorColdButton">
+        <widget class="QPushButton" name="stopButton">
          <property name="text">
-          <string>Cold</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
+          <string>Stop</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QLabel" name="coldTemperatureLabel">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>60</y>
-        <width>101</width>
-        <height>21</height>
-       </rect>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="displayTabs">
+      <property name="autoFillBackground">
+       <bool>true</bool>
       </property>
-      <property name="text">
-       <string>Cold Temperature:</string>
+      <property name="tabPosition">
+       <enum>QTabWidget::South</enum>
       </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <widget class="QWidget" name="logTab">
+       <attribute name="title">
+        <string>Log</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTextBrowser" name="logDisplayBox">
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; color:#ff0000;&quot;&gt;Logs are stored in &amp;quot;Logs&amp;quot; folder, named after this application execution time and date&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; color:#ff0000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; color:#000000;&quot;&gt;Connecting...&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; color:#000000;&quot;&gt;Conection succesful!&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; color:#000000;&quot;&gt;Awaiting comands&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="graphTab">
+       <attribute name="title">
+        <string>Graph</string>
+       </attribute>
+      </widget>
      </widget>
-     <widget class="QLabel" name="hotTemperatureLabel">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>30</y>
-        <width>91</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Hot Temperature:</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="startButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>460</y>
-        <width>301</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Start</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="restorePresetsButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>90</y>
-        <width>301</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Restore presets</string>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="hotTemperatureInputBox">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>30</y>
-        <width>51</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <number>-10</number>
-      </property>
-      <property name="maximum">
-       <number>50</number>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="coldTemperatureInputBox">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>60</y>
-        <width>51</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="minimum">
-       <number>-10</number>
-      </property>
-      <property name="maximum">
-       <number>50</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="hotTempCelsiusLabel">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>30</y>
-        <width>31</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>ºC</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="coldTempCelsiusLabel">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>60</y>
-        <width>31</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>ºC</string>
-      </property>
-     </widget>
-    </widget>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -281,15 +258,6 @@ p, li { white-space: pre-wrap; }
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionSettings"/>
-    <addaction name="separator"/>
-    <addaction name="actionGraph"/>
-    <addaction name="actionLog"/>
-   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
@@ -297,29 +265,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionUserManual"/>
     <addaction name="actionAboutThermstUtil"/>
    </widget>
-   <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <action name="actionSettings">
-   <property name="text">
-    <string>Show/Hide Settings</string>
-   </property>
-  </action>
-  <action name="actionGraph">
-   <property name="text">
-    <string>Graph</string>
-   </property>
-  </action>
-  <action name="actionLog">
-   <property name="text">
-    <string>Log</string>
-   </property>
-  </action>
   <action name="actionStart">
    <property name="text">
     <string>Start</string>
@@ -381,22 +328,6 @@ p, li { white-space: pre-wrap; }
  <resources/>
  <connections>
   <connection>
-   <sender>settingsButton</sender>
-   <signal>clicked()</signal>
-   <receiver>settingsDock</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>47</x>
-     <y>43</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>149</x>
-     <y>300</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>startButton</sender>
    <signal>clicked()</signal>
    <receiver>actionStart</receiver>
@@ -429,38 +360,6 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>modeSelectorColdButton</sender>
-   <signal>clicked()</signal>
-   <receiver>actionSetColdMode</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>235</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>modeSelectorHotButton</sender>
-   <signal>clicked()</signal>
-   <receiver>actionSetHotMode</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>144</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>hotTemperatureInputBox</sender>
    <signal>valueChanged(int)</signal>
    <receiver>actionSetHotTemperature</receiver>
@@ -485,6 +384,38 @@ p, li { white-space: pre-wrap; }
     <hint type="sourcelabel">
      <x>145</x>
      <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modeSelectorHotButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSetHotMode</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modeSelectorColdButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionSetColdMode</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
