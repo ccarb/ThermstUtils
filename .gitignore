@@ -1,0 +1,9 @@
+*.pyc
+*.o
+*.elf
+*.hex
+*.kicad_pcb-bak
+*.sch-bak
+**.desktop.ini
+*-cache
+server/flask_env
