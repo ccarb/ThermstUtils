@@ -7,9 +7,10 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 import popos.connection as Connection
+import os
 app = Flask(__name__)
 SerialConnection = Connection.Connection()
-
+    
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -42,3 +43,7 @@ def close_connection():
 def ping():
     response = SerialConnection.ping()
     return jsonify(response), 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True,host='0.0.0.0',port=port)
