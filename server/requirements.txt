@@ -1,0 +1,6 @@
+matplotlib
+pyserial
+numpy
+pyserial
+cloudmesh-cmd5
+Flask
