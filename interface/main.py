@@ -8,7 +8,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import flask_server
 import sys
+
 
 class Ui_ThermstUtil(QtWidgets.QMainWindow):
     def setupUi(self, ThermstUtil):
@@ -180,12 +182,11 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.actionRestorePresets.setToolTip(_translate("ThermstUtil", "Restore Presets"))
         self.actionUserManual.setText(_translate("ThermstUtil", "User Manual"))
         self.actionAboutThermstUtil.setText(_translate("ThermstUtil", "About ThermstUtil"))
-
-
-
 if __name__ == "__main__":
+    port = int(flask_server.os.environ.get("PORT", 5000))
+    flask_server.app.run(debug=True,host='0.0.0.0',port=port) #this is a while true loop
     app = QtWidgets.QApplication([])
     window = Ui_ThermstUtil()
     window.setupUi(window)
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_()) #this is also a while true loop
