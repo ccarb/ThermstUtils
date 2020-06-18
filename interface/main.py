@@ -7,13 +7,20 @@
 # WARNING! All changes made in this file will be lost!
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets, QtCore
 import flask_server
 import sys
+
+class Flask_server_thread(QtCore.QRunnable):
+    @QtCore.pyqtSlot()
+    def run(self):
+        port = int(flask_server.os.environ.get("PORT", 5000))
+        flask_server.app.run(debug=False,host='0.0.0.0',port=port)
 
 
 class Ui_ThermstUtil(QtWidgets.QMainWindow):
     def setupUi(self, ThermstUtil):
+        self.threadpool = QtCore.QThreadPool()
         ThermstUtil.setObjectName("ThermstUtil")
         ThermstUtil.resize(800, 600)
         self.centralWidget = QtWidgets.QWidget(ThermstUtil)
@@ -78,6 +85,7 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.verticalLayout.addItem(spacerItem2)
         self.startButton = QtWidgets.QPushButton(self.settingsBox)
         self.startButton.setObjectName("startButton")
+        self.startButton.pressed.connect(self.start_flask_server)
         self.verticalLayout.addWidget(self.startButton)
         self.stopButton = QtWidgets.QPushButton(self.settingsBox)
         self.stopButton.setObjectName("stopButton")
@@ -182,11 +190,14 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.actionRestorePresets.setToolTip(_translate("ThermstUtil", "Restore Presets"))
         self.actionUserManual.setText(_translate("ThermstUtil", "User Manual"))
         self.actionAboutThermstUtil.setText(_translate("ThermstUtil", "About ThermstUtil"))
+    def start_flask_server(self):
+        flask_thread=Flask_server_thread()
+        self.threadpool.start(flask_thread)
+
 if __name__ == "__main__":
-    port = int(flask_server.os.environ.get("PORT", 5000))
-    flask_server.app.run(debug=True,host='0.0.0.0',port=port) #this is a while true loop
     app = QtWidgets.QApplication([])
     window = Ui_ThermstUtil()
     window.setupUi(window)
     window.show()
-    sys.exit(app.exec_()) #this is also a while true loop
+    app.exec_()
+    sys.exit()
