@@ -10,17 +10,21 @@
 from PyQt5 import QtGui, QtWidgets, QtCore
 import flask_server
 import sys
+import requests
 
-class Flask_server_thread(QtCore.QRunnable):
+class Flask_server_thread(QtCore.QThread):
+    port = int(flask_server.os.environ.get("PORT", 5000))
     @QtCore.pyqtSlot()
     def run(self):
-        port = int(flask_server.os.environ.get("PORT", 5000))
-        flask_server.app.run(debug=False,host='0.0.0.0',port=port)
+        flask_server.app.run(debug=False,host='0.0.0.0',port=self.port)
+    @QtCore.pyqtSlot()
+    def quit(self):
+        requests.get("http://localhost:5000/shutdown")
 
 
 class Ui_ThermstUtil(QtWidgets.QMainWindow):
+    flask_thread=Flask_server_thread()
     def setupUi(self, ThermstUtil):
-        self.threadpool = QtCore.QThreadPool()
         ThermstUtil.setObjectName("ThermstUtil")
         ThermstUtil.resize(800, 600)
         self.centralWidget = QtWidgets.QWidget(ThermstUtil)
@@ -191,8 +195,7 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.actionUserManual.setText(_translate("ThermstUtil", "User Manual"))
         self.actionAboutThermstUtil.setText(_translate("ThermstUtil", "About ThermstUtil"))
     def start_flask_server(self):
-        flask_thread=Flask_server_thread()
-        self.threadpool.start(flask_thread)
+        self.flask_thread.start(QtCore.QThread.InheritPriority)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
@@ -200,4 +203,5 @@ if __name__ == "__main__":
     window.setupUi(window)
     window.show()
     app.exec_()
+    window.flask_thread.quit()
     sys.exit()
