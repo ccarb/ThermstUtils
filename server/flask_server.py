@@ -10,10 +10,11 @@ import popos.connection as Connection
 import os
 app = Flask(__name__)
 SerialConnection = Connection.Connection()
+
     
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def status():
+    return 'La aplicación esta funcionando'
 
 @app.route('/connect', methods=['GET', 'POST', 'DELETE'])
 
@@ -26,10 +27,14 @@ def list_devices():
 @app.route('/open_connection', methods=['POST'])
 def open_connection():
     device = request.json["device"]
-    SerialConnection.connect_device(9600, device)
-    return 'asdf' # TODO: agregar logica para ver si se pudo abrir la conexion.
+    status = SerialConnection.connect_device(9600, device)
+    if status == 200: 
+        message_response = "Device connected"
+    else:
+        message_response = "Could not find an device - is it plugged in?"
+    return jsonify(message = message_response), status
 
-@app.route('/close_connection', methods=['POST']) # Capaz delete seria mas apropiado
+@app.route('/close_connection', methods=['DELETE'])
 def close_connection():
     device = request.json["device"]
     response = SerialConnection.disconnect_device(device)
@@ -38,6 +43,12 @@ def close_connection():
     else:
         status = 202
     return jsonify(response), status
+
+@app.route('/temperature', methods=['GET'])
+def get_temperature():
+    response = SerialConnection.request_temperature_measure()
+    return jsonify(response), 200
+
 
 @app.route('/ping', methods=['GET'])
 def ping():
