@@ -7,3 +7,5 @@
 **.desktop.ini
 *-cache
 server/flask_env
+/py_env
+/.vscode

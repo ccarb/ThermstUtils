@@ -4,3 +4,5 @@ numpy
 pyserial
 cloudmesh-cmd5
 Flask
+PyQt5
+fbs
