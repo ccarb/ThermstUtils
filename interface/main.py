@@ -89,7 +89,7 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.verticalLayout.addItem(spacerItem2)
         self.startButton = QtWidgets.QPushButton(self.settingsBox)
         self.startButton.setObjectName("startButton")
-        self.startButton.pressed.connect(self.start_flask_server)
+        self.startButton.pressed.connect(self.hello_world)
         self.verticalLayout.addWidget(self.startButton)
         self.stopButton = QtWidgets.QPushButton(self.settingsBox)
         self.stopButton.setObjectName("stopButton")
@@ -194,14 +194,21 @@ class Ui_ThermstUtil(QtWidgets.QMainWindow):
         self.actionRestorePresets.setToolTip(_translate("ThermstUtil", "Restore Presets"))
         self.actionUserManual.setText(_translate("ThermstUtil", "User Manual"))
         self.actionAboutThermstUtil.setText(_translate("ThermstUtil", "About ThermstUtil"))
-    def start_flask_server(self):
-        self.flask_thread.start(QtCore.QThread.InheritPriority)
+
+    def hello_world(self):
+        #r=flask_server.hello_world()
+        #self.logDisplayBox.setText(r)
+        r=requests.get("http://localhost:5000/")
+        self.logDisplayBox.setText(r.text)
+
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = Ui_ThermstUtil()
     window.setupUi(window)
     window.show()
+    window.flask_thread.start(QtCore.QThread.HighPriority)
     app.exec_()
     window.flask_thread.quit()
     sys.exit()
