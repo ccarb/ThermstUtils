@@ -341,7 +341,7 @@ class Ui_mainWindow(object):
         self.coldTemperatureInputBox.valueChanged['int'].connect(self.actionSetColdTemperature.trigger)
         self.modeSelectorHotButton.clicked.connect(self.actionSetHotMode.trigger)
         self.modeSelectorColdButton.clicked.connect(self.actionSetColdMode.trigger)
-        self.actionReadTemperature.triggered.connect(self.temperatureDisplay.clear)
+        self.actionStart.triggered.connect(self.actionReadTemperature.trigger)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
     def retranslateUi(self, mainWindow):
@@ -359,7 +359,6 @@ class Ui_mainWindow(object):
         self.label_2.setText(_translate("mainWindow", "ms"))
         self.restorePresetsButton.setText(_translate("mainWindow", "Restore presets"))
         self.label.setText(_translate("mainWindow", "Temperatura Actual:"))
-        self.temperatureDisplay.setProperty("temperature", _translate("mainWindow", "28ºC"))
         self.startButton.setText(_translate("mainWindow", "Start"))
         self.stopButton.setText(_translate("mainWindow", "Stop"))
         self.logDisplayBox.setHtml(_translate("mainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
