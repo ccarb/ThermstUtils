@@ -7,9 +7,11 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from server.popos import connection as Connection
+from server.popos import fake_measurements as FakeMeasurements
 import os
 app = Flask(__name__)
 SerialConnection = Connection.Connection()
+FakeMeasurements = FakeMeasurements.FakeMeasurements()
 
     
 @app.route('/')
@@ -48,6 +50,15 @@ def close_connection():
 def get_temperature():
     response = SerialConnection.request_temperature_measure()
     return jsonify(response), 200
+
+@app.route('/temperature_test', methods=['POST'])
+def set_temperature_test():
+    FakeMeasurements.set_objective(request.json["temperature"])
+    return '', 202
+
+@app.route('/temperature_test', methods=['GET'])
+def get_temperature_test():
+    return { "temperature": str(FakeMeasurements.read_temperature()) }, 200
 
 
 @app.route('/ping', methods=['GET'])
