@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>mainWindow</class>
  <widget class="QMainWindow" name="mainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,6 +30,9 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QGroupBox" name="settingsBox">
@@ -160,16 +166,16 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <layout class="QHBoxLayout" name="setMeasurementFrequencyLayout">
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="freqMeasurementLabel">
            <property name="text">
             <string>Measurment Frecuency:</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer">
+          <spacer name="freqMeasSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -182,14 +188,20 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="freqMeasurementInputBox">
+           <property name="minimum">
+            <number>500</number>
+           </property>
            <property name="maximum">
             <number>10000</number>
+           </property>
+           <property name="value">
+            <number>1000</number>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="freqMeasMSLabel">
            <property name="text">
             <string>ms</string>
            </property>
@@ -218,7 +230,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="CurrentTemperatureLabel">
          <property name="text">
           <string>Temperatura Actual:</string>
          </property>
@@ -682,6 +694,9 @@
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
+         <property name="temperature" stdset="0">
+          <string notr="true">28ºC</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -701,6 +716,9 @@
         <widget class="QPushButton" name="startButton">
          <property name="text">
           <string>Start</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -877,6 +895,12 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionConnectDevice">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Connect Device...</string>
    </property>
@@ -891,7 +915,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources/resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -1003,6 +1027,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hotTemperatureInputBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>coldTemperatureInputBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>259</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>259</x>
+     <y>116</y>
     </hint>
    </hints>
   </connection>

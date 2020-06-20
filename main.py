@@ -21,6 +21,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.setupUi(self)
         self.flask_thread = Flask_server_thread()
         self.configurePlot()
+
+        measurementTimer=QtCore.QTimer(self)
+        measurementTimer.start(1000)
+        measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
+
+        self.freqMeasurementInputBox.valueChanged['int'].connect(measurementTimer.start)
+
         self.actionReadTemperature.triggered.connect(self.updateTemperature)
 
     def configurePlot(self):
@@ -31,6 +38,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
     def updateTemperature(self):
         self.temperatureDisplay.setText(flask_server.readTemp())
+    
+    
 
 
 if __name__ == "__main__":
