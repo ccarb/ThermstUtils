@@ -4,6 +4,7 @@ from server import flask_server
 import sys
 import requests
 from interface.mainwindow import Ui_mainWindow
+from interface.connectiondialog import Ui_connectionDialog
 import pyqtgraph as pg
 
 class Flask_server_thread(QtCore.QThread):
@@ -30,6 +31,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
         self.actionReadTemperature.triggered.connect(self.updateTemperature)
 
+        self.actionConnectDevice.triggered.connect(self.openConnectionDialog)
+
     def configurePlot(self):
         color = self.palette().color(QtGui.QPalette.Base)
         self.graphWidget.setBackground(color)
@@ -39,8 +42,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def updateTemperature(self):
         self.temperatureDisplay.setText(flask_server.readTemp())
     
-    
+    def openConnectionDialog(self):
+        dlg=ConnectionDialog()
+        dlg.exec_()
 
+    
+class ConnectionDialog(QtWidgets.QDialog,Ui_connectionDialog):
+    def __init__(self, *args, **kwargs):
+        super(ConnectionDialog, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+        #TODO set deviceList items
+
+    def getDeviceList(self):
+        #TODO define this method
+        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

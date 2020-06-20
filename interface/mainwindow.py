@@ -333,7 +333,7 @@ class Ui_mainWindow(object):
         self.actionReadTemperature.setObjectName("actionReadTemperature")
         self.actionConnectDevice = QtWidgets.QAction(mainWindow)
         self.actionConnectDevice.setCheckable(False)
-        self.actionConnectDevice.setEnabled(False)
+        self.actionConnectDevice.setEnabled(True)
         self.actionConnectDevice.setObjectName("actionConnectDevice")
         self.menuHelp.addAction(self.actionUserManual)
         self.menuHelp.addAction(self.actionAboutThermstUtil)
