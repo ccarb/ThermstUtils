@@ -1,61 +1,10 @@
 #python -m PyQt5.uic.pyuic -x interface/mainwindow.ui -o interface/design.py
-from PyQt5 import QtGui, QtWidgets, QtCore, uic
-from server import flask_server
+from PyQt5 import QtCore, QtWidgets
 import sys
-import requests
-from interface.mainwindow import Ui_mainWindow
-from interface.connectiondialog import Ui_connectionDialog
-import pyqtgraph as pg
+from interface.mainWindow import MainWindow
+from interface.connectionDialog import ConnectionDialog
 
-class Flask_server_thread(QtCore.QThread):
-    port = int(flask_server.os.environ.get("PORT", 5000))
-    @QtCore.pyqtSlot()
-    def run(self):
-        flask_server.app.run(debug=False,host='0.0.0.0',port=self.port)
-    @QtCore.pyqtSlot()
-    def quit(self):
-        requests.get("http://localhost:5000/shutdown")
 
-class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
-    def __init__(self, *args, obj=None, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
-        self.setupUi(self)
-        self.flask_thread = Flask_server_thread()
-        self.configurePlot()
-
-        measurementTimer=QtCore.QTimer(self)
-        measurementTimer.start(1000)
-        measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
-
-        self.freqMeasurementInputBox.valueChanged['int'].connect(measurementTimer.start)
-
-        self.actionReadTemperature.triggered.connect(self.updateTemperature)
-
-        self.actionConnectDevice.triggered.connect(self.openConnectionDialog)
-
-    def configurePlot(self):
-        color = self.palette().color(QtGui.QPalette.Base)
-        self.graphWidget.setBackground(color)
-        pen = pg.mkPen(color=(255, 0, 0), width=2)
-        self.graphWidget.plot([0,1,2,3,4,5,6,7,], [1,1,0,0,1,1,0,0], pen=pen)
-
-    def updateTemperature(self):
-        self.temperatureDisplay.setText(flask_server.readTemp())
-    
-    def openConnectionDialog(self):
-        dlg=ConnectionDialog()
-        dlg.exec_()
-
-    
-class ConnectionDialog(QtWidgets.QDialog,Ui_connectionDialog):
-    def __init__(self, *args, **kwargs):
-        super(ConnectionDialog, self).__init__(*args, **kwargs)
-        self.setupUi(self)
-        #TODO set deviceList items
-
-    def getDeviceList(self):
-        #TODO define this method
-        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
