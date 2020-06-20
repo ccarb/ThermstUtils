@@ -6,7 +6,7 @@
 from flask import Flask
 from flask import request
 from flask import jsonify
-import popos.connection as Connection
+from server.popos import connection as Connection
 import os
 app = Flask(__name__)
 SerialConnection = Connection.Connection()
