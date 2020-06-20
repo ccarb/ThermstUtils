@@ -22,11 +22,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.flask_thread = Flask_server_thread()
         self.configurePlot()
 
+        measurementTimer=QtCore.QTimer(self)
+        measurementTimer.start(1000)
+        measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
+
+        self.freqMeasurementInputBox.valueChanged['int'].connect(measurementTimer.start)
+
+        self.actionReadTemperature.triggered.connect(self.updateTemperature)
+
     def configurePlot(self):
         color = self.palette().color(QtGui.QPalette.Base)
         self.graphWidget.setBackground(color)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
         self.graphWidget.plot([0,1,2,3,4,5,6,7,], [1,1,0,0,1,1,0,0], pen=pen)
+
+    def updateTemperature(self):
+        self.temperatureDisplay.setText(flask_server.readTemp())
+    
+    
 
 
 if __name__ == "__main__":

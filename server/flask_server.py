@@ -8,6 +8,7 @@ from flask import request
 from flask import jsonify
 from server.popos import connection as Connection
 import os
+import datetime
 app = Flask(__name__)
 SerialConnection = Connection.Connection()
 
@@ -54,6 +55,9 @@ def get_temperature():
 def ping():
     response = SerialConnection.ping()
     return jsonify(response), 200
+
+def readTemp():
+    return str(datetime.datetime.now())
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
