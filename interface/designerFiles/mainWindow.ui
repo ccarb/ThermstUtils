@@ -23,8 +23,13 @@
    <string>Thermal Stimulator</string>
   </property>
   <property name="windowIcon">
+<<<<<<< HEAD:interface/mainwindow.ui
    <iconset>
     <normaloff>:/icons/resources/icon.png</normaloff>:/icons/resources/icon.png</iconset>
+=======
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/icons/icon.png</normaloff>:/icons/icon.png</iconset>
+>>>>>>> dev-connection_dialog:interface/designerFiles/mainWindow.ui
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -118,7 +123,7 @@
          <item>
           <widget class="QLabel" name="hotTempCelsiusLabel">
            <property name="text">
-            <string>ºC</string>
+            <string> C</string>
            </property>
           </widget>
          </item>
@@ -159,7 +164,7 @@
          <item>
           <widget class="QLabel" name="coldTempCelsiusLabel">
            <property name="text">
-            <string>ºC</string>
+            <string> C</string>
            </property>
           </widget>
          </item>
@@ -232,7 +237,7 @@
        <item>
         <widget class="QLabel" name="CurrentTemperatureLabel">
          <property name="text">
-          <string>Temperatura Actual:</string>
+          <string>Current Temperature:</string>
          </property>
         </widget>
        </item>
@@ -683,7 +688,7 @@
           <enum>QFrame::Raised</enum>
          </property>
          <property name="text">
-          <string notr="true">28ºC</string>
+          <string>28 C</string>
          </property>
          <property name="textFormat">
           <enum>Qt::PlainText</enum>
@@ -694,9 +699,12 @@
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
+<<<<<<< HEAD:interface/mainwindow.ui
          <property name="temperature" stdset="0">
           <string notr="true">28ºC</string>
          </property>
+=======
+>>>>>>> dev-connection_dialog:interface/designerFiles/mainWindow.ui
         </widget>
        </item>
        <item>
@@ -899,7 +907,11 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
    <property name="enabled">
+<<<<<<< HEAD:interface/mainwindow.ui
     <bool>false</bool>
+=======
+    <bool>true</bool>
+>>>>>>> dev-connection_dialog:interface/designerFiles/mainWindow.ui
    </property>
    <property name="text">
     <string>Connect Device...</string>
@@ -915,7 +927,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../../resources/resources.qrc"/>
  </resources>
  <connections>
   <connection>

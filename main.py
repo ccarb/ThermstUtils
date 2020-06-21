@@ -1,11 +1,11 @@
 #python -m PyQt5.uic.pyuic -x interface/mainwindow.ui -o interface/design.py
-from PyQt5 import QtGui, QtWidgets, QtCore, uic
-from server import flask_server
+from PyQt5 import QtCore, QtWidgets
 import sys
-import requests
-from interface.mainwindow import Ui_mainWindow
-import pyqtgraph as pg
+import interface.flaskRequests as flaskRequests
+from interface.mainWindow import MainWindow
+from interface.connectionDialog import ConnectionDialog
 
+<<<<<<< HEAD
 class Flask_server_thread(QtCore.QThread):
     port = int(flask_server.os.environ.get("PORT", 5000))
     @QtCore.pyqtSlot()
@@ -35,6 +35,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphWidget.setBackground(color)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
         self.graphWidget.plot([0,1,2,3,4,5,6,7,], [1,1,0,0,1,1,0,0], pen=pen)
+=======
+>>>>>>> dev-connection_dialog
 
     def updateTemperature(self):
         self.temperatureDisplay.setText(flask_server.readTemp())
@@ -48,5 +50,7 @@ if __name__ == "__main__":
     window.show()
     window.flask_thread.start(QtCore.QThread.HighPriority)
     app.exec()
+    if window.device!={}:
+        flaskRequests.closeDevice(window.device)
     window.flask_thread.quit()
     sys.exit()
