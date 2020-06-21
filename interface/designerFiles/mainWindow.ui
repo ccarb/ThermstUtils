@@ -159,7 +159,7 @@
          <item>
           <widget class="QLabel" name="coldTempCelsiusLabel">
            <property name="text">
-            <string>C</string>
+            <string> C</string>
            </property>
           </widget>
          </item>
@@ -232,7 +232,7 @@
        <item>
         <widget class="QLabel" name="CurrentTemperatureLabel">
          <property name="text">
-          <string>Temperatura Actual:</string>
+          <string>Current Temperature:</string>
          </property>
         </widget>
        </item>

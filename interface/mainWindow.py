@@ -30,7 +30,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
         self.actionReadTemperature.triggered.connect(self.updateTemperature)
 
-        self.actionConnectDevice.triggered.connect(self.openConnectionDialog)
+        self.connDialog=ConnectionDialog()
+
+        self.actionConnectDevice.triggered.connect(self.runConnectionDialog)
 
     def configurePlot(self):
         color = self.palette().color(QtGui.QPalette.Base)
@@ -41,6 +43,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def updateTemperature(self):
         self.temperatureDisplay.setText(flask_server.readTemp())
     
-    def openConnectionDialog(self):
-        dlg=ConnectionDialog()
-        dlg.exec_()
+    def runConnectionDialog(self):
+        self.connDialog.devicesList.clear()
+        self.connDialog.devicesList.addItems(self.getDeviceList())
+        self.getDeviceList()
+        if self.connDialog.exec_():
+            requests.post("http://localhost:5000/open_connection",{"device": self.connDialog.devicesList.currentText()})
+            if self.connDialog.paradigmModeButton.isChecked():
+                self.settingsBox.setEnabled(False)
+            else:
+                self.settingsBox.setEnabled(True)
+    
+    def getDeviceList(self):
+        r=requests.get("http://localhost:5000/list_devices")
+        devices=r.json()
+        return [x["port"] for x in devices]
