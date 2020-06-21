@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
-import requests
 
+import interface.flaskRequests as flaskRequests
 from interface.designerFiles.mainwindowqtd import Ui_mainWindow
 from server import flask_server
 from interface.connectionDialog import ConnectionDialog
@@ -13,7 +13,7 @@ class Flask_server_thread(QtCore.QThread):
         flask_server.app.run(debug=False,host='0.0.0.0',port=self.port)
     @QtCore.pyqtSlot()
     def quit(self):
-        requests.get("http://localhost:5000/shutdown")
+        flaskRequests.shutdownServer()
 
 class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -22,16 +22,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.flask_thread = Flask_server_thread()
         self.configurePlot()
 
-        measurementTimer=QtCore.QTimer(self)
-        measurementTimer.start(1000)
-        measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
+        self.measurementTimer=QtCore.QTimer(self)
+        self.measurementTimer.start(1000)
+        self.measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
 
-        self.freqMeasurementInputBox.valueChanged['int'].connect(measurementTimer.start)
+        self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
 
         self.actionReadTemperature.triggered.connect(self.updateTemperature)
 
         self.connDialog=ConnectionDialog()
-
+        self.device={}
         self.actionConnectDevice.triggered.connect(self.runConnectionDialog)
 
     def configurePlot(self):
@@ -46,16 +46,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def runConnectionDialog(self):
         self.connDialog.devicesList.clear()
         self.connDialog.devicesList.addItems(self.getDeviceList())
-        self.getDeviceList()
         if self.connDialog.exec_():
+            if self.device!={}:
+                flaskRequests.closeDevice(self.device)
             if self.connDialog.devicesList.currentText():
-            	requests.post("http://localhost:5000/open_connection",{"device": self.connDialog.devicesList.currentText()})
+                self.device={"device" : self.connDialog.devicesList.currentText()}
+                flaskRequests.openDevice(self.device)
             if self.connDialog.paradigmModeButton.isChecked():
                 self.settingsBox.setEnabled(False)
             else:
                 self.settingsBox.setEnabled(True)
     
     def getDeviceList(self):
-        r=requests.get("http://localhost:5000/list_devices")
-        devices=r.json()
+        devices=flaskRequests.getDevices()
         return [x["port"] for x in devices]
