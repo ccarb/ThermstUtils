@@ -48,7 +48,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.connDialog.devicesList.addItems(self.getDeviceList())
         self.getDeviceList()
         if self.connDialog.exec_():
-            requests.post("http://localhost:5000/open_connection",{"device": self.connDialog.devicesList.currentText()})
+            if self.connDialog.devicesList.currentText():
+            	requests.post("http://localhost:5000/open_connection",{"device": self.connDialog.devicesList.currentText()})
             if self.connDialog.paradigmModeButton.isChecked():
                 self.settingsBox.setEnabled(False)
             else:
