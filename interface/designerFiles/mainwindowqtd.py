@@ -333,11 +333,7 @@ class Ui_mainWindow(object):
         self.actionReadTemperature.setObjectName("actionReadTemperature")
         self.actionConnectDevice = QtWidgets.QAction(mainWindow)
         self.actionConnectDevice.setCheckable(False)
-<<<<<<< HEAD:interface/mainwindow.py
-        self.actionConnectDevice.setEnabled(False)
-=======
         self.actionConnectDevice.setEnabled(True)
->>>>>>> dev-connection_dialog:interface/designerFiles/mainwindowqtd.py
         self.actionConnectDevice.setObjectName("actionConnectDevice")
         self.menuHelp.addAction(self.actionUserManual)
         self.menuHelp.addAction(self.actionAboutThermstUtil)
@@ -367,20 +363,12 @@ class Ui_mainWindow(object):
         self.hotTemperatureLabel.setText(_translate("mainWindow", "Hot Temperature:"))
         self.hotTempCelsiusLabel.setText(_translate("mainWindow", " C"))
         self.coldTemperatureLabel.setText(_translate("mainWindow", "Cold Temperature:"))
-<<<<<<< HEAD:interface/mainwindow.py
-        self.coldTempCelsiusLabel.setText(_translate("mainWindow", "ºC"))
-        self.freqMeasurementLabel.setText(_translate("mainWindow", "Measurment Frecuency:"))
-        self.freqMeasMSLabel.setText(_translate("mainWindow", "ms"))
-        self.restorePresetsButton.setText(_translate("mainWindow", "Restore presets"))
-        self.CurrentTemperatureLabel.setText(_translate("mainWindow", "Temperatura Actual:"))
-=======
         self.coldTempCelsiusLabel.setText(_translate("mainWindow", " C"))
         self.freqMeasurementLabel.setText(_translate("mainWindow", "Measurment Frecuency:"))
         self.freqMeasMSLabel.setText(_translate("mainWindow", "ms"))
         self.restorePresetsButton.setText(_translate("mainWindow", "Restore presets"))
         self.CurrentTemperatureLabel.setText(_translate("mainWindow", "Current Temperature:"))
         self.temperatureDisplay.setText(_translate("mainWindow", "28 C"))
->>>>>>> dev-connection_dialog:interface/designerFiles/mainwindowqtd.py
         self.startButton.setText(_translate("mainWindow", "Start"))
         self.stopButton.setText(_translate("mainWindow", "Stop"))
         self.logDisplayBox.setHtml(_translate("mainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

@@ -23,10 +23,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.configurePlot()
 
         self.measurementTimer=QtCore.QTimer(self)
-        self.measurementTimer.start(1000)
         self.measurementTimer.timeout.connect(self.actionReadTemperature.trigger)
-
-        self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
 
         self.actionReadTemperature.triggered.connect(self.updateTemperature)
 
@@ -34,14 +31,38 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.device={}
         self.actionConnectDevice.triggered.connect(self.runConnectionDialog)
 
+        self.temperature=25
+
+        self.actionStart.triggered.connect(self.startDevice)
+        self.graphData={'x':[],'y':[]}
+
     def configurePlot(self):
         color = self.palette().color(QtGui.QPalette.Base)
         self.graphWidget.setBackground(color)
+        self.graphWidget.setLabel('bottom', 'Time [s]')
+        self.graphWidget.setLabel('left', 'Temperature [ºC]')
+        self.graphWidget.setYRange(-10,50)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
-        self.graphWidget.plot([0,1,2,3,4,5,6,7,], [1,1,0,0,1,1,0,0], pen=pen)
+        self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
 
     def updateTemperature(self):
-        self.temperatureDisplay.setText(flask_server.readTemp())
+        newTemp=flaskRequests.readTemperature()
+        self.temperatureDisplay.setText(newTemp+'ºC')
+        self.updateGraph(float(newTemp))
+
+    def updateGraph(self,temperature: float):
+        maximumTimeInterval=30
+        timeIncrement=self.freqMeasurementInputBox.value()/1000
+        if self.graphData["x"]==[]:
+            time=0
+        else:
+            time=self.graphData["x"][-1]+timeIncrement
+            if (self.graphData["x"][-1]-self.graphData["x"][0])>maximumTimeInterval:
+                self.graphData["x"]=self.graphData["x"][1:]
+                self.graphData["y"]=self.graphData["y"][1:]
+        self.graphData["x"].append(time)
+        self.graphData["y"].append(temperature)
+        self.plotLine.setData(self.graphData["x"],self.graphData["y"])
     
     def runConnectionDialog(self):
         self.connDialog.devicesList.clear()
@@ -52,6 +73,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             if self.connDialog.devicesList.currentText():
                 self.device={"device" : self.connDialog.devicesList.currentText()}
                 flaskRequests.openDevice(self.device)
+                self.measurementTimer.start(self.freqMeasurementInputBox.value())
+                self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
             if self.connDialog.paradigmModeButton.isChecked():
                 self.settingsBox.setEnabled(False)
             else:
@@ -60,3 +83,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def getDeviceList(self):
         devices=flaskRequests.getDevices()
         return [x["port"] for x in devices]
+
+    def startDevice(self):
+        if self.modeSelectorColdButton.isChecked:
+            settings={ "temperature": str(self.coldTemperatureInputBox.value())}
+        if self.modeSelectorHotButton.isChecked:
+            settings={ "temperature": str(self.hotTemperatureInputBox.value())}
+        flaskRequests.startDevice(settings)
+        
