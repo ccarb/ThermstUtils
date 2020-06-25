@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>connectionDialog</class>
+ <widget class="QDialog" name="connectionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>372</width>
+    <height>113</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Connection Settings</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="devicesListLabel">
+     <property name="toolTip">
+      <string>Choose the port in which the device is connected</string>
+     </property>
+     <property name="text">
+      <string>Devices:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="devicesList">
+     <property name="currentText">
+      <string>test item 1</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="minimumContentsLength">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>test item 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>test item 2</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="modeSelectorLabel">
+     <property name="toolTip">
+      <string>Select the mode of operation</string>
+     </property>
+     <property name="text">
+      <string>Mode:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QRadioButton" name="paradigmModeButton">
+     <property name="toolTip">
+      <string>Paradigm: the program has no interaction with the device</string>
+     </property>
+     <property name="text">
+      <string>Paradigm</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QRadioButton" name="maintenanceModeButton">
+     <property name="toolTip">
+      <string>Maintenance: Program has full control of the device</string>
+     </property>
+     <property name="text">
+      <string>Maintenance/Diagnostics</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QDialogButtonBox" name="connectionDialogButtons">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>devicesList</tabstop>
+  <tabstop>maintenanceModeButton</tabstop>
+  <tabstop>paradigmModeButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>connectionDialogButtons</sender>
+   <signal>accepted()</signal>
+   <receiver>connectionDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>connectionDialogButtons</sender>
+   <signal>rejected()</signal>
+   <receiver>connectionDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
