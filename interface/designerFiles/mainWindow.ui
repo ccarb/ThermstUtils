@@ -36,6 +36,9 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QGroupBox" name="settingsBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="minimumSize">
        <size>
         <width>300</width>
@@ -84,16 +87,16 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="setHotTemperatureLayout">
+        <layout class="QHBoxLayout" name="setTemperatureLayout">
          <item>
-          <widget class="QLabel" name="hotTemperatureLabel">
+          <widget class="QLabel" name="temperatureLabel">
            <property name="text">
-            <string>Hot Temperature:</string>
+            <string>Temperature:</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="hotTempSpacer">
+          <spacer name="tempSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -106,60 +109,18 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSpinBox" name="hotTemperatureInputBox">
+          <widget class="QSpinBox" name="temperatureInputBox">
+           <property name="suffix">
+            <string>ºC</string>
+           </property>
            <property name="minimum">
             <number>-10</number>
            </property>
            <property name="maximum">
             <number>50</number>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="hotTempCelsiusLabel">
-           <property name="text">
-            <string> C</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="setColdTemperatureLayout">
-         <item>
-          <widget class="QLabel" name="coldTemperatureLabel">
-           <property name="text">
-            <string>Cold Temperature:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="coldTempSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="coldTemperatureInputBox">
-           <property name="minimum">
-            <number>-10</number>
-           </property>
-           <property name="maximum">
-            <number>50</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="coldTempCelsiusLabel">
-           <property name="text">
-            <string> C</string>
+           <property name="value">
+            <number>25</number>
            </property>
           </widget>
          </item>
@@ -189,6 +150,9 @@
          </item>
          <item>
           <widget class="QSpinBox" name="freqMeasurementInputBox">
+           <property name="suffix">
+            <string> ms</string>
+           </property>
            <property name="minimum">
             <number>500</number>
            </property>
@@ -197,13 +161,6 @@
            </property>
            <property name="value">
             <number>1000</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="freqMeasMSLabel">
-           <property name="text">
-            <string>ms</string>
            </property>
           </widget>
          </item>
@@ -239,7 +196,7 @@
        <item alignment="Qt::AlignHCenter">
         <widget class="QLabel" name="temperatureDisplay">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -683,7 +640,7 @@
           <enum>QFrame::Raised</enum>
          </property>
          <property name="text">
-          <string>28 C</string>
+          <string>--</string>
          </property>
          <property name="textFormat">
           <enum>Qt::PlainText</enum>
@@ -839,35 +796,6 @@ p, li { white-space: pre-wrap; }
     <string>Stop</string>
    </property>
   </action>
-  <action name="actionSetHotMode">
-   <property name="text">
-    <string>Set Hot Mode</string>
-   </property>
-   <property name="toolTip">
-    <string>Set Hot Mode</string>
-   </property>
-  </action>
-  <action name="actionSetColdMode">
-   <property name="text">
-    <string>Set Cold Mode</string>
-   </property>
-   <property name="toolTip">
-    <string>Set Cold Mode</string>
-   </property>
-  </action>
-  <action name="actionSetHotTemperature">
-   <property name="text">
-    <string>Set Hot Temperature</string>
-   </property>
-   <property name="toolTip">
-    <string>Set Hot Temperature</string>
-   </property>
-  </action>
-  <action name="actionSetColdTemperature">
-   <property name="text">
-    <string>Set Cold Temperature</string>
-   </property>
-  </action>
   <action name="actionRestorePresets">
    <property name="text">
     <string>Restore Presets</string>
@@ -948,98 +876,18 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>hotTemperatureInputBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>actionSetHotTemperature</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>98</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>coldTemperatureInputBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>actionSetColdTemperature</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>modeSelectorHotButton</sender>
+   <sender>restorePresetsButton</sender>
    <signal>clicked()</signal>
-   <receiver>actionSetHotMode</receiver>
+   <receiver>actionRestorePresets</receiver>
    <slot>trigger()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>144</x>
-     <y>63</y>
+     <x>158</x>
+     <y>145</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>modeSelectorColdButton</sender>
-   <signal>clicked()</signal>
-   <receiver>actionSetColdMode</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>235</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionStart</sender>
-   <signal>triggered()</signal>
-   <receiver>actionReadTemperature</receiver>
-   <slot>trigger()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>hotTemperatureInputBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>coldTemperatureInputBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>259</x>
-     <y>88</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>259</x>
-     <y>116</y>
     </hint>
    </hints>
   </connection>

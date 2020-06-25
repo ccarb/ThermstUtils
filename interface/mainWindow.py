@@ -46,9 +46,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
 
     def updateTemperature(self):
-        newTemp=flaskRequests.readTemperature()
-        self.temperatureDisplay.setText(newTemp+'ºC')
-        self.updateGraph(float(newTemp))
+        newTemp = flaskRequests.readTemperature()
+        newTemp = float(newTemp)
+        self.updateGraph(newTemp)
+        newTemp = "{T:.1f}".format(T=newTemp)
+        self.temperatureDisplay.setText(newTemp + 'ºC')
 
     def updateGraph(self,temperature: float):
         maximumTimeInterval=30
@@ -85,10 +87,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         return [x["port"] for x in devices]
 
     def startDevice(self):
-        if self.modeSelectorColdButton.isChecked:
-            settings={ "temperature": str(self.coldTemperatureInputBox.value())}
-        if self.modeSelectorHotButton.isChecked:
-            settings={ "temperature": str(self.hotTemperatureInputBox.value())}
+        settings={ "temperature": str(self.temperatureInputBox.value())}
         flaskRequests.startDevice(settings)
         
         
