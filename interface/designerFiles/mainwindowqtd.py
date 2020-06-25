@@ -262,7 +262,6 @@ class Ui_mainWindow(object):
         self.temperatureDisplay.setTextFormat(QtCore.Qt.PlainText)
         self.temperatureDisplay.setScaledContents(False)
         self.temperatureDisplay.setAlignment(QtCore.Qt.AlignCenter)
-        self.temperatureDisplay.setProperty("temperature", "28ºC")
         self.temperatureDisplay.setObjectName("temperatureDisplay")
         self.verticalLayout.addWidget(self.temperatureDisplay, 0, QtCore.Qt.AlignHCenter)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
