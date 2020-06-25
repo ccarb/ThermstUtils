@@ -10,3 +10,5 @@ server/flask_env
 /py_env
 /.vscode
 *main.pyproject.user*
+/build
+/dist
