@@ -3,8 +3,8 @@ import time
 class FakeMeasurements(object):
     def __init__(self):
         self.initial_temp = 25
-        self.objective_temperature = None
-        self.time0 = None
+        self.objective_temperature = 25
+        self.time0 = time.monotonic()
 
     def set_objective(self, temperature):
         self.objective_temperature = float(temperature)

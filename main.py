@@ -5,7 +5,6 @@ import interface.flaskRequests as flaskRequests
 from interface.mainWindow import MainWindow
 from interface.connectionDialog import ConnectionDialog
 
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
