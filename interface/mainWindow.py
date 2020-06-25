@@ -91,3 +91,4 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             settings={ "temperature": str(self.hotTemperatureInputBox.value())}
         flaskRequests.startDevice(settings)
         
+        
