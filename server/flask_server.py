@@ -1,6 +1,6 @@
 # PARA INICIAR EL SERVER:
 # .\flask_env\Scripts\Activate.ps1
-# $env:FLASK_APP = "flask_server.py"
+# $env:FLASK_APP = "server/flask_server.py"
 # $env:FLASK_ENV = "development"
 # python -m flask run
 from flask import Flask
