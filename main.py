@@ -5,7 +5,7 @@ import interface.flaskRequests as flaskRequests
 from interface.mainWindow import MainWindow
 from interface.connectionDialog import ConnectionDialog
 
-if __name__ == "__main__":
+def run():
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
@@ -15,3 +15,6 @@ if __name__ == "__main__":
         flaskRequests.closeDevice(window.device)
     window.flask_thread.quit()
     sys.exit()
+
+if __name__ == "__main__":
+    run()
