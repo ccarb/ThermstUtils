@@ -38,8 +38,9 @@ def readTemperature():
         r=r.json()
         return str(r["temperature"])
     else:
-        # to do: make data request
-        return "-1000"
+        r=requests.get( serverUrl + "temperature")
+        r=r.json()
+        return str(r["temperature"])
 
 def shutdownServer():
     requests.get(serverUrl + "shutdown")
