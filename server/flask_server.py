@@ -2,17 +2,22 @@
 # .\flask_env\Scripts\Activate.ps1
 # $env:FLASK_APP = "server/flask_server.py"
 # $env:FLASK_ENV = "development"
+# $env:EnableLogging = "True"
 # python -m flask run
 from flask import Flask
 from flask import request
 from flask import jsonify
+import logging
 from server.popos import connection as Connection
 from server.popos import fake_measurements as FakeMeasurements
 import os
 import datetime
+
 app = Flask(__name__)
-SerialConnection = Connection.Connection()
-FakeMeasurements = FakeMeasurements.FakeMeasurements()
+app.logger.setLevel(logging.INFO)
+app.logger.disabled = not os.environ["EnableLogging"]=="True"
+SerialConnection = Connection.Connection(app.logger)
+FakeMeasurements = FakeMeasurements.FakeMeasurements(app.logger)
 
     
 @app.route('/')
