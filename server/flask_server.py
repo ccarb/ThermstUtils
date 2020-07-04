@@ -15,7 +15,10 @@ import datetime
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
-app.logger.disabled = not os.environ["EnableLogging"]=="True"
+try:
+    app.logger.disabled = not os.environ["EnableLogging"]
+except:
+    app.logger.disabled = True
 SerialConnection = Connection.Connection(app.logger)
 FakeMeasurements = FakeMeasurements.FakeMeasurements(app.logger)
 
