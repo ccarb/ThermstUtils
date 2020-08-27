@@ -3,7 +3,6 @@ import serial
 import struct
 import time
 import serial.tools.list_ports as ports_list
-from live_plot import Plotter
 import threading
 import csv
 import sys
@@ -136,6 +135,11 @@ class Commander(cmd.Cmd):
         referencia = self.read_chunk(4, '<f')[0]
         Commander.communication_available.set()
         print(f'temperatura referencia = {referencia}')
+
+    def do_read_temperature(self):
+        self.wait_communication_available()
+        Commander.communication_available.clear()
+        self.send_chunk('<cb', (b't',i))
 
 
     def do_exit(self, data):
