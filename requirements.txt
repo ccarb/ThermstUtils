@@ -2,7 +2,7 @@ pyserial
 numpy
 cloudmesh-cmd5
 Flask
-PyQt5
+PyQt5==5.14
 fbs
 pyqtgraph
 PyInstaller
