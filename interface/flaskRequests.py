@@ -5,42 +5,22 @@ from config import *
 serverUrl="http://127.0.0.1:5000/"
 
 def getDevices():
-    if deviceIndependant:
-        return [{"port":"Dummy Device"}]
-    else:
-        r=requests.get( serverUrl + "list_devices")
-        return r.json()
+    r=requests.get( serverUrl + "list_devices")
+    return r.json()
 
 def openDevice(device : dict):
-    if deviceIndependant:
-        # there is no device to open
-        pass
-    else:
-        requests.post( serverUrl + "open_connection", json=device)
+    requests.post( serverUrl + "open_connection", json=device)
 
 def closeDevice(device: dict):
-    if deviceIndependant:
-        # there is no device to close
-        pass
-    else:
-        requests.post( serverUrl + "close_connection", json=device)
+    requests.post( serverUrl + "close_connection", json=device)
 
-def startDevice(settings: dict):
-    if deviceIndependant:
-        requests.post( serverUrl + "temperature_test", json=settings)
-    else:
-        # to do: make request sending settings
-        pass
+def startDevice(settings: dict): # TODO: name is missleading.
+    requests.post( serverUrl + "set_temperature", json=settings)
 
 def readTemperature():
-    if deviceIndependant:
-        r=requests.get( serverUrl + "temperature_test")
-        r=r.json()
-        return str(r["temperature"])
-    else:
-        r=requests.get( serverUrl + "temperature")
-        r=r.json()
-        return str(r["temperature"])
+    r=requests.get( serverUrl + "read_temperature")
+    r=r.json()
+    return str(r["temperature"])
 
 def shutdownServer():
     requests.get(serverUrl + "shutdown")

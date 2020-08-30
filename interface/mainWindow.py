@@ -93,7 +93,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             mode="hot"
         else:
             mode="cold"
-        settings={ "temperature": str(temperature), "mode": mode}
+        settings={ "objective_temperature": str(temperature), "mode": mode}
         flaskRequests.startDevice(settings)
         
         
