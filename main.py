@@ -1,6 +1,7 @@
 #python -m PyQt5.uic.pyuic -x interface/mainwindow.ui -o interface/design.py
 from PyQt5 import QtCore, QtWidgets
 import sys
+
 import interface.flaskRequests as flaskRequests
 from interface.mainWindow import MainWindow
 from interface.connectionDialog import ConnectionDialog

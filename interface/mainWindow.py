@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
 
+from config import *
 import interface.flaskRequests as flaskRequests
 from interface.designerFiles.mainwindowqtd import Ui_mainWindow
 from server import flask_server
@@ -87,7 +88,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         return [x["port"] for x in devices]
 
     def startDevice(self):
-        settings={ "temperature": str(self.temperatureInputBox.value())}
+        temperature=self.temperatureInputBox.value()
+        if self.modeSelectorHotButton.isChecked():
+            mode="hot"
+        else:
+            mode="cold"
+        settings={ "objective_temperature": str(temperature), "mode": mode}
         flaskRequests.startDevice(settings)
         
         

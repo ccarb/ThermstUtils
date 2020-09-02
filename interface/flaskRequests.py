@@ -1,5 +1,7 @@
 import requests
 
+from config import *
+
 serverUrl="http://127.0.0.1:5000/"
 
 def getDevices():
@@ -12,11 +14,11 @@ def openDevice(device : dict):
 def closeDevice(device: dict):
     requests.post( serverUrl + "close_connection", json=device)
 
-def startDevice(settings: dict):
-    requests.post( serverUrl + "temperature_test", json=settings)
+def startDevice(settings: dict): # TODO: name is missleading.
+    requests.post( serverUrl + "set_temperature", json=settings)
 
 def readTemperature():
-    r=requests.get( serverUrl + "temperature_test")
+    r=requests.get( serverUrl + "read_temperature")
     r=r.json()
     return str(r["temperature"])
 

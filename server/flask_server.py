@@ -12,6 +12,7 @@ from server.popos import connection as Connection
 from server.popos import fake_measurements as FakeMeasurements
 import os
 import datetime
+from config import *
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -19,15 +20,15 @@ try:
     app.logger.disabled = not os.environ["EnableLogging"]
 except:
     app.logger.disabled = True
-SerialConnection = Connection.Connection(app.logger)
-FakeMeasurements = FakeMeasurements.FakeMeasurements(app.logger)
 
+if deviceIndependant:
+    SerialConnection = FakeMeasurements.FakeMeasurements(app.logger)
+else:
+    SerialConnection = Connection.Connection(app.logger)
     
 @app.route('/')
 def status():
     return 'La aplicación esta funcionando'
-
-@app.route('/connect', methods=['GET', 'POST', 'DELETE'])
 
 @app.route('/list_devices', methods=['GET'])
 def list_devices():
@@ -55,20 +56,16 @@ def close_connection():
         status = 202
     return jsonify(response), status
 
-@app.route('/temperature', methods=['GET'])
+@app.route('/read_temperature', methods=['GET'])
 def get_temperature():
-    response = SerialConnection.request_temperature_measure()
+    temperature = SerialConnection.request_temperature_measure()
+    response = { "temperature": str(temperature) }
     return jsonify(response), 200
 
-@app.route('/temperature_test', methods=['POST'])
-def set_temperature_test():
-    FakeMeasurements.set_objective(request.json["temperature"])
+@app.route('/set_temperature', methods=['POST'])
+def set_temperature():
+    response = SerialConnection.set_objective_temperature(request.json["objective_temperature"])
     return '', 202
-
-@app.route('/temperature_test', methods=['GET'])
-def get_temperature_test():
-    return { "temperature": str(FakeMeasurements.read_temperature()) }, 200
-
 
 @app.route('/ping', methods=['GET'])
 def ping():

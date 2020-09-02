@@ -20,3 +20,21 @@ Run the main:
 ```
 python3 main.py
 ```
+
+- Optional env variables:
+
+Powershell:
+``` powershell
+$env:EnableLogging = "True"
+$env:deviceIndependant = True
+```
+Windows Console:
+```
+set EnableLogging="True"
+set deviceIndependant=True
+```
+Linux Console:
+```
+$EnableLogging="True"
+$deviceIndependant=True
+```
