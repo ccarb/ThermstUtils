@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['release.py'],
+a = Analysis(['main.py'],
              pathex=['D:\\Users\\Ceci\\Documents\\Facu\\ThermstUtils'],
              binaries=[],
              datas=[],
