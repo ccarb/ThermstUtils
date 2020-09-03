@@ -1,0 +1,62 @@
+[
+	{
+		"name": "thermistor_temp",
+		"url": "/thermistor_temp",
+		"input": [
+			{
+				"id": "thermistor",
+				"type": "uint8_t"
+			}
+		],
+		"output": [
+			{
+				"id": "temp",
+				"type": "float"
+			}
+		]
+	},
+	{
+		"name": "cold",
+		"url": "/cold/temp",
+		"input": [
+			{
+			"id": "temp",
+			"type": "float"
+			}
+		],
+		"output": []
+	},
+	{
+		"name": "hot",
+		"url": "/hot/temp",
+		"input": [
+			{
+			"id": "temp",
+			"type": "float"
+			}
+		],
+		"output": []
+	},
+	{
+		"name": "pwm_cold",
+		"url": "/cold/pwm",
+		"input": [
+			{
+			"id": "pwm",
+			"type": "uint8_t"
+			}
+		],
+		"output": []
+	},
+	{
+		"name": "pwm_hot",
+		"url": "/hot/pwm",
+		"input": [
+			{
+			"id": "pwm",
+			"type": "uint8_t"
+			}
+		],
+		"output": []
+	}
+]

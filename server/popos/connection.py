@@ -1,7 +1,7 @@
 import serial
 import serial.tools.list_ports as ports_list
 import struct
-from commander import Commander
+# from commander import Commander
 
 SEPARATOR_SIZE = 1
 DATA_SIZE = 4
@@ -10,7 +10,7 @@ class Connection(object):
     def __init__(self, logger):
         self.connection_available = False
         self.logger = logger
-        self.commander = Commander()
+        # self.commander = Commander()
 
     def connect_device(self, baud_rate, device_name, default_port = None):
         ports = list(ports_list.comports())
@@ -19,7 +19,7 @@ class Connection(object):
                 # print("Device found at " + p.device)
                 try:
                     self.connection = serial.Serial(p.device, baud_rate, parity=serial.PARITY_EVEN)
-                    self.initialize_commander()
+                    # self.initialize_commander()
                     self.connection_available = True
                     self.logger.info('Device found at %s', p.device)
                     return 200
@@ -27,8 +27,8 @@ class Connection(object):
                     self.logger.info('Unable to connect to %s', p.device)
                     return 404
     
-    def initialize_commander(self):
-        self.commander.ser = self.connection
+    # def initialize_commander(self):
+    #     self.commander.ser = self.connection
 
     def list_devices(self):
         devices = list(ports_list.comports())

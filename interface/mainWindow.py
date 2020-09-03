@@ -11,7 +11,7 @@ class Flask_server_thread(QtCore.QThread):
     port = int(flask_server.os.environ.get("PORT", 5000))
     @QtCore.pyqtSlot()
     def run(self):
-        flask_server.app.run(debug=False,host='0.0.0.0',port=self.port)
+        flask_server.app.run(debug=False,host='0.0.0.0',port=self.port, threaded=False)
     @QtCore.pyqtSlot()
     def quit(self):
         flaskRequests.shutdownServer()
