@@ -58,5 +58,15 @@
 			}
 		],
 		"output": []
+	},
+	{
+		"name": "read_temperature",
+		"input": [],
+		"output": [
+			{
+			"id": "temperature",
+			"type": "float"
+			}
+		]
 	}
 ]

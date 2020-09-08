@@ -11,29 +11,67 @@ import json
 from pdb import set_trace as st
 
 class Commander():
-    ser = None
+    connection = None
+    connection_available = False
+    logger = None
+    baud_rate = 9600
 
     def __init__(self):
         self.commands = {}
         self.load_commands()
 
     def load_commands(self):
-        with open('commands.json') as json_file:
+        with open('server/popos/commands.json') as json_file:
             commands = json.load(json_file)
         for index, item in enumerate(commands):
             self.commands[item["name"]] = Command(item, index)
     
+    def connect_device(self, device_name, default_port = None):
+        ports = list(ports_list.comports())
+        Commander.logger.info("puertos dentro del commander:::::::::::::::::")
+        for p in ports:
+            Commander.logger.info(p.device)
+            if p.device == device_name:
+                try:
+                    Commander.logger.info('Device found at %s', p.device)
+                    Commander.connection = serial.Serial(p.device, Commander.baud_rate, parity=serial.PARITY_EVEN, timeout=1)
+                    Commander.connection_available = True
+                    return 200
+                except Exception as e:
+                    st()
+                    Commander.logger.info('Unable to connect to %s', p.device)
+                    Commander.logger.info(e)
+                    return 404
+
+    def list_devices(self):
+        devices = list(ports_list.comports())
+        devices_info = []
+        for p in devices:
+            devices_info.append({"port": p.device, "description": p.description})
+        return devices_info
+
+    def disconnect_device(self, device):
+        if not Commander.connection_available:
+            return { "error": "Can't close connection. None is open." }
+        if (Commander.connection.port == device) and self.connection.is_open: # .port .name .portsrt ._port tienen todos el valor 'COM4'
+            Commander.connection.close()
+            Commander.connection_available = False
+            Commander.logger.info('Succesfully disconected device %s', device)
+            return { "status": "Closed Succesfully" }
+        Commander.logger.info("Can't close connection on port " + device)
+        return { "error": "Can't close connection on port " + device }
+    
     def hot(self, temp):
-        self.commands["hot"].perform(Commander.ser, [temp])
+        self.commands["hot"].perform(Commander.connection, [temp])
     
     def cold(self, temp):
-        self.commands["cold"].perform(Commander.ser, [temp])
+        self.commands["cold"].perform(Commander.connection, [temp])
 
     def status(self):
-        return self.commands["status"].perform(Commander.ser, [])
+        return self.commands["status"].perform(Commander.connection, [])
     
     def read_temperature(self):
-        return self.commands["read_temperature"].perform(Commander.ser, [])
+        return self.commands["read_temperature"].perform(Commander.connection, [])
 
 class Command():
     endianness = '<'
@@ -67,7 +105,7 @@ class Command():
         formated_data = self.format_input(data)
         if len(self.parameters["input"]) > 0:
             self.send_chunk(serial_connection, formated_data)
-        if len(self.parameters["output"]) > 0::
+        if len(self.parameters["output"]) > 0:
             return self.read_chunk(serial_connection)
 
     def format_input(self, data):
