@@ -69,6 +69,11 @@ def set_temperature():
     response = SerialConnection.set_objective_temperature(request.json["objective_temperature"])
     return '', 202
 
+@app.route('/cmd/cold', methods=['POST'])
+def cold():
+    response = SerialConnection.cold(request.json["temp"])
+    return '', 202    
+
 @app.route('/ping', methods=['GET'])
 def ping():
     response = SerialConnection.ping()

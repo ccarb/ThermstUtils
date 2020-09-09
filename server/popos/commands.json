@@ -1,5 +1,11 @@
 [
 	{
+		"name": "status",
+		"url": "/status/get",
+		"input": [],
+		"output": []
+	},
+	{
 		"name": "thermistor_temp",
 		"url": "/thermistor_temp",
 		"input": [

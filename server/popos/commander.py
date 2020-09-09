@@ -34,8 +34,12 @@ class Commander():
             if p.device == device_name:
                 try:
                     Commander.logger.info('Device found at %s', p.device)
-                    Commander.connection = serial.Serial(p.device, Commander.baud_rate, parity=serial.PARITY_EVEN, timeout=1)
+                    Commander.connection = serial.Serial(p.device, Commander.baud_rate, parity=serial.PARITY_EVEN)
                     Commander.connection_available = True
+                    Commander.connection.reset_input_buffer()
+                    Commander.connection.reset_output_buffer()
+                    time.sleep(3)
+
                     return 200
                 except Exception as e:
                     st()
@@ -71,7 +75,7 @@ class Commander():
         return self.commands["status"].perform(Commander.connection, [])
     
     def read_temperature(self):
-        return self.commands["read_temperature"].perform(Commander.connection, [])
+        return self.commands["read_temperature"].perform(Commander.connection, [])[-1]
 
 class Command():
     endianness = '<'
@@ -85,28 +89,27 @@ class Command():
     def __init__(self, parameters, index):
         self.parameters = parameters
         self.name = parameters["name"]
-        self.serial_identifier = bytes(str(index), encoding="ascii")
-        self.send_data_format = self.endianness + 'c' # Char for the command identified by the array position.
+        self.serial_identifier = index
+        self.send_data_format = self.endianness + 'b' # Char for the command identified by the array position.
         self.send_data_format += ''.join([ self.parse_data_type[a["type"]] for a in parameters["input"] ])
-        self.receive_data_format = self.endianness + ''.join([ self.parse_data_type[a["type"]] for a in parameters["output"] ])
-        self.receive_data_buffer_size = sum([ self.data_size[a["type"]] for a in parameters["output"] ])
+        self.receive_data_format = self.endianness + 'bb' + ''.join([ self.parse_data_type[a["type"]] for a in parameters["output"] ])
+        self.receive_data_buffer_size = sum([ self.data_size[a["type"]] for a in parameters["output"] ]) + 2
 
     def send_chunk(self, serial_connection, data):
         raw_data = struct.pack(self.send_data_format, self.serial_identifier, *data)
-        self.dato_enviado = raw_data
+        Commander.logger.info(raw_data)
         serial_connection.write(raw_data)
         return True
 
     def read_chunk(self, serial_connection):
+        Commander.logger.info(str(self.receive_data_buffer_size))
         raw_data = serial_connection.read(self.receive_data_buffer_size)
         return list(struct.unpack(self.receive_data_format, raw_data))
 
     def perform(self, serial_connection, data):
         formated_data = self.format_input(data)
-        if len(self.parameters["input"]) > 0:
-            self.send_chunk(serial_connection, formated_data)
-        if len(self.parameters["output"]) > 0:
-            return self.read_chunk(serial_connection)
+        self.send_chunk(serial_connection, formated_data)
+        return self.read_chunk(serial_connection)
 
     def format_input(self, data):
         formated = []
