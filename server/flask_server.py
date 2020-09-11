@@ -8,7 +8,7 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 import logging
-from server.popos import connection as Connection
+from server.popos.commander import Commander
 from server.popos import fake_measurements as FakeMeasurements
 import os
 import datetime
@@ -24,7 +24,8 @@ except:
 if deviceIndependant:
     SerialConnection = FakeMeasurements.FakeMeasurements(app.logger)
 else:
-    SerialConnection = Connection.Connection(app.logger)
+    SerialConnection = Commander()
+    Commander.logger = app.logger
     
 @app.route('/')
 def status():
@@ -39,7 +40,8 @@ def list_devices():
 @app.route('/open_connection', methods=['POST'])
 def open_connection():
     device = request.json["device"]
-    status = SerialConnection.connect_device(9600, device)
+    app.logger.info("Device::::::::::::::::::::::::::::" + device)
+    status = SerialConnection.connect_device(device)
     if status == 200: 
         message_response = "Device connected"
     else:
@@ -56,16 +58,27 @@ def close_connection():
         status = 202
     return jsonify(response), status
 
+@app.route('/status', methods=['GET'])
+def arduino_status():
+    [status_byte, error_byte] = SerialConnection.status()
+    response = { "status_byte": status_byte, "error_byte": error_byte }
+    return jsonify(response), 200
+
 @app.route('/read_temperature', methods=['GET'])
 def get_temperature():
-    temperature = SerialConnection.request_temperature_measure()
+    temperature = SerialConnection.read_temperature()
     response = { "temperature": str(temperature) }
     return jsonify(response), 200
 
 @app.route('/set_temperature', methods=['POST'])
 def set_temperature():
-    response = SerialConnection.set_objective_temperature(request.json["objective_temperature"])
+    response = SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
+
+@app.route('/cmd/cold', methods=['POST'])
+def cold():
+    response = SerialConnection.cold(request.json["temp"])
+    return '', 202    
 
 @app.route('/ping', methods=['GET'])
 def ping():
