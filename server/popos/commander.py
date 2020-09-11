@@ -28,7 +28,6 @@ class Commander():
     
     def connect_device(self, device_name, default_port = None):
         ports = list(ports_list.comports())
-        Commander.logger.info("puertos dentro del commander:::::::::::::::::")
         for p in ports:
             Commander.logger.info(p.device)
             if p.device == device_name:
@@ -39,10 +38,8 @@ class Commander():
                     Commander.connection.reset_input_buffer()
                     Commander.connection.reset_output_buffer()
                     time.sleep(3)
-
                     return 200
                 except Exception as e:
-                    st()
                     Commander.logger.info('Unable to connect to %s', p.device)
                     Commander.logger.info(e)
                     return 404
@@ -75,7 +72,8 @@ class Commander():
         return self.commands["status"].perform(Commander.connection, [])
     
     def read_temperature(self):
-        return self.commands["read_temperature"].perform(Commander.connection, [])[-1]
+        temp = self.commands["read_temperature"].perform(Commander.connection, [])
+        return temp[-1]
 
 class Command():
     endianness = '<'
@@ -102,11 +100,13 @@ class Command():
         return True
 
     def read_chunk(self, serial_connection):
-        Commander.logger.info(str(self.receive_data_buffer_size))
         raw_data = serial_connection.read(self.receive_data_buffer_size)
+        Commander.logger.info(raw_data)
         return list(struct.unpack(self.receive_data_format, raw_data))
 
     def perform(self, serial_connection, data):
+        serial_connection.reset_input_buffer()
+        serial_connection.reset_output_buffer()
         formated_data = self.format_input(data)
         self.send_chunk(serial_connection, formated_data)
         return self.read_chunk(serial_connection)

@@ -58,6 +58,12 @@ def close_connection():
         status = 202
     return jsonify(response), status
 
+@app.route('/status', methods=['GET'])
+def arduino_status():
+    [status_byte, error_byte] = SerialConnection.status()
+    response = { "status_byte": status_byte, "error_byte": error_byte }
+    return jsonify(response), 200
+
 @app.route('/read_temperature', methods=['GET'])
 def get_temperature():
     temperature = SerialConnection.read_temperature()
@@ -66,7 +72,7 @@ def get_temperature():
 
 @app.route('/set_temperature', methods=['POST'])
 def set_temperature():
-    response = SerialConnection.set_objective_temperature(request.json["objective_temperature"])
+    response = SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/cmd/cold', methods=['POST'])

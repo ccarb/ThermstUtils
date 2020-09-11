@@ -38,3 +38,6 @@ Linux Console:
 $EnableLogging="True"
 $deviceIndependant=True
 ```
+## Permisions to connect to arduino
+
+sudo chmod 666 /dev/ttyUSB0
