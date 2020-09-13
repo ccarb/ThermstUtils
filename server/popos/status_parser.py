@@ -1,4 +1,4 @@
-class ParseStatusBytes():
+class StatusParser():
     @classmethod
     def parse(cls, status):
         return [
