@@ -1,5 +1,12 @@
 <RCC>
   <qresource prefix="icons">
+    <file>off.png</file>
+    <file>cold.png</file>
+    <file>danger.png</file>
+    <file>warning.png</file>
+    <file>working.png</file>
+    <file>serial_off.png</file>
     <file>icon.png</file>
+    <file>serial_on.png</file>
   </qresource>
 </RCC>
