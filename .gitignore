@@ -12,3 +12,4 @@ server/flask_env
 *main.pyproject.user*
 /build
 /dist
+/env
