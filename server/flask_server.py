@@ -13,6 +13,8 @@ from server.popos import fake_measurements as FakeMeasurements
 import os
 import datetime
 from config import *
+import time
+from pdb import set_trace as st
 
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
@@ -29,7 +31,7 @@ else:
     
 @app.route('/')
 def status():
-    return 'La aplicación esta funcionando'
+    return jsonify(api_status())
 
 @app.route('/list_devices', methods=['GET'])
 def list_devices():
@@ -58,35 +60,33 @@ def close_connection():
         status = 202
     return jsonify(response), status
 
-@app.route('/status', methods=['GET'])
-def arduino_status():
-    [status_byte, error_byte] = SerialConnection.status()
-    response = { "status_byte": status_byte, "error_byte": error_byte }
-    return jsonify(response), 200
-
 @app.route('/read_temperature', methods=['GET'])
 def get_temperature():
     temperature = SerialConnection.read_temperature()
     response = { "temperature": str(temperature) }
+    if request.args.get('consumer') == "UI": response["status"] = api_status()
     return jsonify(response), 200
 
 @app.route('/set_temperature', methods=['POST'])
 def set_temperature():
-    response = SerialConnection.cold(request.json["objective_temperature"])
+    SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/cmd/cold', methods=['POST'])
 def cold():
-    response = SerialConnection.cold(request.json["temp"])
+    SerialConnection.cold(request.json["temp"])
     return '', 202    
 
-@app.route('/ping', methods=['GET'])
-def ping():
-    response = SerialConnection.ping()
-    return jsonify(response), 200
-
-def readTemp():
-    return str(datetime.datetime.now())
+def api_status():
+    return {
+        "device": Commander.connection.port if Commander.connection_available else None,
+        "operation_mode": Commander.mode,
+        "target_temperature": Commander.target_temperature,
+        "last_measurement": Commander.last_measurement,
+        "time_since_last_measurement": time.monotonic() - Commander.last_measurement_timestamp if not Commander.last_measurement_timestamp == None else None,
+        "status_codes": Commander.device_status_codes,
+        "status_descriptions": Commander.device_status_descriptions
+    }
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
