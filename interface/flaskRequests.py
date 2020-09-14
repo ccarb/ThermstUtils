@@ -12,15 +12,25 @@ def openDevice(device : dict):
     requests.post( serverUrl + "open_connection", json=device)
 
 def closeDevice(device: dict):
-    requests.post( serverUrl + "close_connection", json=device)
+    requests.delete( serverUrl + "close_connection", json=device)
 
 def startDevice(settings: dict): # TODO: name is missleading.
     requests.post( serverUrl + "set_temperature", json=settings)
 
+def cold(settings: dict):
+    requests.post( serverUrl + "cold", json=settings)
+
+def hot(settings: dict):
+    requests.post( serverUrl + "hot", json=settings)
+
+def stopTemp():
+    requests.post( serverUrl + "stop_device")
+
 def readTemperature():
-    r=requests.get( serverUrl + "read_temperature")
+    r=requests.get( serverUrl + "read_temperature?consumer=UI")
+    if not r.status_code == 200: return "ServerError"
     r=r.json()
-    return str(r["temperature"])
+    return r
 
 def shutdownServer():
     requests.get(serverUrl + "shutdown")

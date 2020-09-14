@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'interface/designerFiles/connectionDialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.0
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_connectionDialog(object):
     def setupUi(self, connectionDialog):
@@ -70,4 +68,5 @@ class Ui_connectionDialog(object):
         self.paradigmModeButton.setText(_translate("connectionDialog", "Paradigm"))
         self.maintenanceModeButton.setToolTip(_translate("connectionDialog", "Maintenance: Program has full control of the device"))
         self.maintenanceModeButton.setText(_translate("connectionDialog", "Maintenance/Diagnostics"))
+
 import resources_rc

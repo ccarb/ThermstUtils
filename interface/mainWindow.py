@@ -31,10 +31,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.connDialog=ConnectionDialog()
         self.device={}
         self.actionConnectDevice.triggered.connect(self.runConnectionDialog)
+        self.actionDisconnect_Device.triggered.connect(self.disconnectDevice)
 
         self.temperature=25
 
         self.actionStart.triggered.connect(self.startDevice)
+        self.actionStop.triggered.connect(self.stopDevice)
         self.graphData={'x':[],'y':[]}
 
     def configurePlot(self):
@@ -49,11 +51,40 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
 
     def updateTemperature(self):
-        newTemp = flaskRequests.readTemperature()
-        newTemp = float(newTemp)
+        response = flaskRequests.readTemperature()
+        if response == "ServerError": return self.communicationError()
+        newTemp = float(response["temperature"])
         self.updateGraph(newTemp)
         newTemp = "{T:.1f}".format(T=newTemp)
         self.temperatureDisplay.setText(newTemp + 'ºC')
+        self.updateStatus(response["status"])
+    
+    def updateStatus(self, status):
+        device = status.get("device")
+        if device == None:
+            self.SerialIndicatorIcon.setPixmap(QtGui.QPixmap(":/icons/serial_off.png"))
+        else:
+            self.SerialIndicatorIcon.setPixmap(QtGui.QPixmap(":/icons/serial_on.png"))
+
+        mode = status.get("operation_mode", None)
+        if mode == None:
+            self.OperationModeIcon.setPixmap(QtGui.QPixmap(":/icons/off.png"))
+        elif mode == "hot":
+            self.OperationModeIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
+        else:
+            self.OperationModeIcon.setPixmap(QtGui.QPixmap(":/icons/cold.png"))
+        
+        status_description = status.get("status_descriptions", {}).get("status")
+        if status_description == None:
+            self.StatusText.setText("Off")
+        else:
+            self.StatusText.setText(status_description)
+        
+        status_error = status.get("status_codes", {}).get("error")
+        if not status_error == 0:
+            self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
+        
+
 
     def updateGraph(self,temperature: float):
         maximumTimeInterval=30
@@ -85,6 +116,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 else:
                     self.settingsBox.setEnabled(True)
     
+    def disconnectDevice(self):
+        flaskRequests.closeDevice(self.device)
+    
     def getDeviceList(self):
         devices=flaskRequests.getDevices()
         return [x["port"] for x in devices]
@@ -92,11 +126,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
     def startDevice(self):
         temperature=self.temperatureInputBox.value()
+        settings={ "objective_temperature": str(temperature)}
         if self.modeSelectorHotButton.isChecked():
-            mode="hot"
+            flaskRequests.hot(settings)
         else:
-            mode="cold"
-        settings={ "objective_temperature": str(temperature), "mode": mode}
-        flaskRequests.startDevice(settings)
-        
-        
+            flaskRequests.cold(settings)
+    
+    def stopDevice(self):
+        flaskRequests.stopTemp()
+    
+    def communicationError(self):
+        pass
