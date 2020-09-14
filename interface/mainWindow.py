@@ -43,6 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphWidget.setLabel('bottom', 'Time [s]')
         self.graphWidget.setLabel('left', 'Temperature [ºC]')
         self.graphWidget.setYRange(-10,50)
+        self.graphWidget.setMouseEnabled(x=True, y=False)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
 
@@ -78,14 +79,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 flaskRequests.openDevice(self.device)
                 self.measurementTimer.start(self.freqMeasurementInputBox.value())
                 self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
-            if self.connDialog.paradigmModeButton.isChecked():
-                self.settingsBox.setEnabled(False)
-            else:
-                self.settingsBox.setEnabled(True)
+                if self.connDialog.paradigmModeButton.isChecked():
+                    self.settingsBox.setEnabled(False)
+                else:
+                    self.settingsBox.setEnabled(True)
     
     def getDeviceList(self):
         devices=flaskRequests.getDevices()
-        return [x["port"] for x in devices]
+        if devices:
+            return [x["port"] for x in devices]
+        else:
+            return ""
 
     def startDevice(self):
         temperature=self.temperatureInputBox.value()
