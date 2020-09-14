@@ -42,7 +42,6 @@ def list_devices():
 @app.route('/open_connection', methods=['POST'])
 def open_connection():
     device = request.json["device"]
-    app.logger.info("Device::::::::::::::::::::::::::::" + device)
     status = SerialConnection.connect_device(device)
     if status == 200: 
         message_response = "Device connected"
@@ -52,6 +51,8 @@ def open_connection():
 
 @app.route('/close_connection', methods=['DELETE'])
 def close_connection():
+    if not SerialConnection.connection_available: return no_connection()
+    if Commander.mode != None: Commander.stop()
     device = request.json["device"]
     response = SerialConnection.disconnect_device(device)
     if "error" in response:
@@ -62,6 +63,7 @@ def close_connection():
 
 @app.route('/read_temperature', methods=['GET'])
 def get_temperature():
+    if not SerialConnection.connection_available: return no_connection()
     temperature = SerialConnection.read_temperature()
     response = { "temperature": str(temperature) }
     if request.args.get('consumer') == "UI": response["status"] = api_status()
@@ -69,22 +71,38 @@ def get_temperature():
 
 @app.route('/set_temperature', methods=['POST'])
 def set_temperature():
+    if not SerialConnection.connection_available: return no_connection()
     SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/cold', methods=['POST'])
 def cold():
+    if not SerialConnection.connection_available: return no_connection()
     SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/hot', methods=['POST'])
 def hot():
+    if not SerialConnection.connection_available: return no_connection()
     SerialConnection.hot(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/stop_device', methods=['POST'])
 def stop_device():
+    if not SerialConnection.connection_available: return no_connection()
     SerialConnection.stop()
+    return '', 202
+
+@app.route('/error', methods=['POST'])
+def error():
+    if not SerialConnection.connection_available: return no_connection()
+    SerialConnection.error_set(request.json["error"])
+    return '', 202
+
+@app.route('/error_clear', methods=['POST'])
+def error_clear():
+    if not SerialConnection.connection_available: return no_connection()
+    SerialConnection.error_clear()
     return '', 202
 
 def api_status():
@@ -97,6 +115,9 @@ def api_status():
         "status_codes": Commander.device_status_codes,
         "status_descriptions": Commander.device_status_descriptions
     }
+
+def no_connection():
+    return "You must stablish a connection with the device first.", 400
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
