@@ -74,5 +74,35 @@
 			"type": "float"
 			}
 		]
+	},
+	{
+		"name": "stop",
+		"input": [],
+		"output": []
+	},
+	{
+		"name": "error_set",
+		"input": [
+			{
+				"id": "code",
+				"type": "uint8_t"
+			}
+		],
+		"output": []
+	},
+	{
+		"name": "error_clear",
+		"input": [
+			{
+				"id": "code",
+				"type": "uint8_t"
+			}
+		],
+		"output": []
+	},
+	{
+		"name": "error_clear_all",
+		"input": [],
+		"output": []
 	}
 ]

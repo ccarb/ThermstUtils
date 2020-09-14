@@ -76,6 +76,12 @@ class Commander():
         Commander.mode = "cold"
         status = self.commands["cold"].perform(Commander.connection, [temp])
         Commander.update_status(status)
+    
+    def stop(self):
+        Commander.target_temperature = None
+        Commander.mode = None
+        status = self.commands["stop"].perform(Commander.connection, [])
+        Commander.update_status(status)
 
     def status(self):
         status = self.commands["status"].perform(Commander.connection, [])
@@ -94,7 +100,7 @@ class Commander():
         Commander.device_status_codes["status"] = status[0]
         Commander.device_status_codes["error"] = status[1]
         [Commander.device_status_descriptions["status"], Commander.device_status_descriptions["error"]] = StatusParser.parse(status)
-
+    
 class Command():
     endianness = '<'
     parse_data_type = { "uint8_t": "b",

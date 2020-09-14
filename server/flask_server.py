@@ -72,10 +72,20 @@ def set_temperature():
     SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
-@app.route('/cmd/cold', methods=['POST'])
+@app.route('/cold', methods=['POST'])
 def cold():
-    SerialConnection.cold(request.json["temp"])
-    return '', 202    
+    SerialConnection.cold(request.json["objective_temperature"])
+    return '', 202
+
+@app.route('/hot', methods=['POST'])
+def hot():
+    SerialConnection.hot(request.json["objective_temperature"])
+    return '', 202
+
+@app.route('/stop_device', methods=['POST'])
+def stop_device():
+    SerialConnection.stop()
+    return '', 202
 
 def api_status():
     return {
