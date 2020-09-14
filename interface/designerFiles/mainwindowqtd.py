@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\Users\Ceci\Documents\Facu\ThermstUtils\interface\designerFiles\mainWindow.ui'
+# Form implementation generated from reading ui file 'interface/designerFiles/mainWindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.14.0
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -253,36 +253,19 @@ class Ui_mainWindow(object):
         self.stopButton.setObjectName("stopButton")
         self.verticalLayout.addWidget(self.stopButton)
         self.horizontalLayout.addWidget(self.settingsBox)
-        self.displayTabs = QtWidgets.QTabWidget(self.centralWidget)
-        self.displayTabs.setAutoFillBackground(True)
-        self.displayTabs.setTabPosition(QtWidgets.QTabWidget.South)
-        self.displayTabs.setTabShape(QtWidgets.QTabWidget.Rounded)
-        self.displayTabs.setElideMode(QtCore.Qt.ElideNone)
-        self.displayTabs.setObjectName("displayTabs")
-        self.logTab = QtWidgets.QWidget()
-        self.logTab.setObjectName("logTab")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.logTab)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.logDisplayBox = QtWidgets.QTextBrowser(self.logTab)
-        self.logDisplayBox.setAutoFillBackground(True)
-        self.logDisplayBox.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.logDisplayBox.setObjectName("logDisplayBox")
-        self.horizontalLayout_3.addWidget(self.logDisplayBox)
-        self.displayTabs.addTab(self.logTab, "")
-        self.graphTab = QtWidgets.QWidget()
-        self.graphTab.setObjectName("graphTab")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.graphTab)
+        self.graphBox = QtWidgets.QWidget(self.centralWidget)
+        self.graphBox.setAutoFillBackground(True)
+        self.graphBox.setObjectName("graphBox")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.graphBox)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.graphWidget = PlotWidget(self.graphTab)
+        self.graphWidget = PlotWidget(self.graphBox)
         self.graphWidget.setAutoFillBackground(False)
         self.graphWidget.setObjectName("graphWidget")
         self.horizontalLayout_2.addWidget(self.graphWidget)
-        self.displayTabs.addTab(self.graphTab, "")
-        self.horizontalLayout.addWidget(self.displayTabs)
+        self.horizontalLayout.addWidget(self.graphBox)
         mainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(mainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 640, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 640, 18))
         self.menuBar.setObjectName("menuBar")
         self.menuHelp = QtWidgets.QMenu(self.menuBar)
         self.menuHelp.setObjectName("menuHelp")
@@ -312,7 +295,6 @@ class Ui_mainWindow(object):
         self.menuBar.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(mainWindow)
-        self.displayTabs.setCurrentIndex(1)
         self.startButton.clicked.connect(self.actionStart.trigger)
         self.stopButton.clicked.connect(self.actionStop.trigger)
         self.restorePresetsButton.clicked.connect(self.actionRestorePresets.trigger)
@@ -334,17 +316,6 @@ class Ui_mainWindow(object):
         self.temperatureDisplay.setText(_translate("mainWindow", "--"))
         self.startButton.setText(_translate("mainWindow", "Start"))
         self.stopButton.setText(_translate("mainWindow", "Stop"))
-        self.logDisplayBox.setHtml(_translate("mainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ff0000;\">Logs are stored in &quot;Logs&quot; folder, named after this application execution time and date</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#ff0000;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">Connecting...</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">Conection succesful!</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">Awaiting comands</span></p></body></html>"))
-        self.displayTabs.setTabText(self.displayTabs.indexOf(self.logTab), _translate("mainWindow", "Log"))
-        self.displayTabs.setTabText(self.displayTabs.indexOf(self.graphTab), _translate("mainWindow", "Graph"))
         self.menuHelp.setTitle(_translate("mainWindow", "Help"))
         self.menuConnect_Device.setTitle(_translate("mainWindow", "Connection"))
         self.actionStart.setText(_translate("mainWindow", "Start"))
@@ -357,13 +328,3 @@ class Ui_mainWindow(object):
         self.actionConnectDevice.setText(_translate("mainWindow", "Connect Device..."))
 from pyqtgraph import PlotWidget
 import resources_rc
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    mainWindow = QtWidgets.QMainWindow()
-    ui = Ui_mainWindow()
-    ui.setupUi(mainWindow)
-    mainWindow.show()
-    sys.exit(app.exec_())
