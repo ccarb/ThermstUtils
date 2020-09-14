@@ -34,3 +34,8 @@ def readTemperature():
 
 def shutdownServer():
     requests.get(serverUrl + "shutdown")
+
+def apiStatus():
+    r = requests.get(serverUrl)
+    if not r.status_code == 200: return "ServerError"
+    return r.json()
