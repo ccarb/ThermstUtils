@@ -2,19 +2,22 @@ import serial
 import struct
 import time
 import serial.tools.list_ports as ports_list
-import threading
-import csv
 import sys
-import cmd
-import numpy
 import json
 from pdb import set_trace as st
+from server.popos.status_parser import StatusParser
 
 class Commander():
     connection = None
     connection_available = False
     logger = None
     baud_rate = 9600
+    device_status_codes = { "status": None, "error": None }
+    device_status_descriptions = { "status": None, "error": None }
+    target_temperature = None
+    last_measurement = None
+    last_measurement_timestamp = None
+    mode = None
 
     def __init__(self):
         self.commands = {}
@@ -54,7 +57,7 @@ class Commander():
     def disconnect_device(self, device):
         if not Commander.connection_available:
             return { "error": "Can't close connection. None is open." }
-        if (Commander.connection.port == device) and self.connection.is_open: # .port .name .portsrt ._port tienen todos el valor 'COM4'
+        if (Commander.connection.port == device) and Commander.connection.is_open: # .port .name .portsrt ._port tienen todos el valor 'COM4'
             Commander.connection.close()
             Commander.connection_available = False
             Commander.logger.info('Succesfully disconected device %s', device)
@@ -63,17 +66,34 @@ class Commander():
         return { "error": "Can't close connection on port " + device }
     
     def hot(self, temp):
-        self.commands["hot"].perform(Commander.connection, [temp])
+        Commander.target_temperature = temp
+        Commander.mode = "hot"
+        status = self.commands["hot"].perform(Commander.connection, [temp])
+        Commander.update_status(status)
     
     def cold(self, temp):
-        self.commands["cold"].perform(Commander.connection, [temp])
+        Commander.target_temperature = temp
+        Commander.mode = "cold"
+        status = self.commands["cold"].perform(Commander.connection, [temp])
+        Commander.update_status(status)
 
     def status(self):
-        return self.commands["status"].perform(Commander.connection, [])
+        status = self.commands["status"].perform(Commander.connection, [])
+        Commander.update_status(status)
+        return status
     
     def read_temperature(self):
         temp = self.commands["read_temperature"].perform(Commander.connection, [])
+        Commander.last_measurement = temp[-1]
+        Commander.last_measurement_timestamp = time.monotonic()
+        Commander.update_status(temp[0:2])
         return temp[-1]
+    
+    @classmethod
+    def update_status(cls, status):
+        Commander.device_status_codes["status"] = status[0]
+        Commander.device_status_codes["error"] = status[1]
+        [Commander.device_status_descriptions["status"], Commander.device_status_descriptions["error"]] = StatusParser.parse(status)
 
 class Command():
     endianness = '<'
