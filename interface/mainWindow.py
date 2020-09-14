@@ -86,10 +86,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     
     def getDeviceList(self):
         devices=flaskRequests.getDevices()
-        if devices:
-            return [x["port"] for x in devices]
-        else:
-            return ""
+        return [x["port"] for x in devices]
+        
 
     def startDevice(self):
         temperature=self.temperatureInputBox.value()
