@@ -1,6 +1,5 @@
 import math
 import time
-from .status_parser import StatusParser
 
 class DummyClass(object):
     pass
