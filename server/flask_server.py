@@ -36,7 +36,6 @@ def status():
 @app.route('/list_devices', methods=['GET'])
 def list_devices():
     data = SerialConnection.list_devices()
-    print(data)
     return jsonify(data)
 
 @app.route('/open_connection', methods=['POST'])
