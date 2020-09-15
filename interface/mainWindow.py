@@ -109,15 +109,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             if self.connDialog.devicesList.currentText():
                 self.device={"device" : self.connDialog.devicesList.currentText()}
                 flaskRequests.openDevice(self.device)
-                self.measurementTimer.start(self.freqMeasurementInputBox.value())
-                self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
-                if self.connDialog.paradigmModeButton.isChecked():
-                    self.settingsBox.setEnabled(False)
+                status = flaskRequests.apiStatus()
+                print(status)
+                if status.get("status_codes", {}).get("error") == 0:
+                    self.measurementTimer.start(self.freqMeasurementInputBox.value())
+                    self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)
+                    if self.connDialog.paradigmModeButton.isChecked():
+                        self.settingsBox.setEnabled(False)
+                    else:
+                        self.settingsBox.setEnabled(True)
                 else:
-                    self.settingsBox.setEnabled(True)
+                    flaskRequests.closeDevice(self.device)
+                    self.device = {}
+
     
     def disconnectDevice(self):
+        if self.device == {}: return False
         flaskRequests.closeDevice(self.device)
+        self.freqMeasurementInputBox.valueChanged['int'].disconnect(self.measurementTimer.start)
+        self.measurementTimer.stop()
+        self.SerialIndicatorIcon.setPixmap(QtGui.QPixmap(":/icons/serial_off.png"))
+        self.OperationModeIcon.setPixmap(QtGui.QPixmap(":/icons/off.png"))
+        self.StatusText.setText("Off")
+        self.device == {}
+        return True
     
     def getDeviceList(self):
         devices=flaskRequests.getDevices()

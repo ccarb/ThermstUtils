@@ -32,20 +32,27 @@ class Commander():
     def connect_device(self, device_name, default_port = None):
         ports = list(ports_list.comports())
         for p in ports:
-            Commander.logger.info(p.device)
             if p.device == device_name:
                 try:
                     Commander.logger.info('Device found at %s', p.device)
-                    Commander.connection = serial.Serial(p.device, Commander.baud_rate, parity=serial.PARITY_EVEN)
-                    Commander.connection_available = True
+                    Commander.connection = serial.Serial(p.device, Commander.baud_rate, parity=serial.PARITY_EVEN, timeout=3)
                     Commander.connection.reset_input_buffer()
                     Commander.connection.reset_output_buffer()
                     time.sleep(3)
-                    return 200
                 except Exception as e:
                     Commander.logger.info('Unable to connect to %s', p.device)
                     Commander.logger.info(e)
+                    Commander.connection = None
                     return 404
+                try:
+                    self.status()
+                except Exception as e:
+                    Commander.logger.info('Selected device is invalid: %s', p.device)
+                    Commander.logger.info(e)
+                    Commander.connection = None
+                    return 404
+                Commander.connection_available = True
+                return 200
 
     def list_devices(self):
         devices = list(ports_list.comports())
@@ -95,6 +102,12 @@ class Commander():
         Commander.update_status(temp[0:2])
         return temp[-1]
     
+    def error_set(self, error):
+        self.commands["error_set"].perform(Commander.connection, [error])
+    
+    def error_clear(self):
+        self.commands["error_clear_all"].perform(Commander.connection, [])
+
     @classmethod
     def update_status(cls, status):
         Commander.device_status_codes["status"] = status[0]

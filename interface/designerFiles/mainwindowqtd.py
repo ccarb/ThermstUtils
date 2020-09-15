@@ -349,7 +349,10 @@ class Ui_mainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("mainWindow", "Thermal Stimulator"))
         self.StatusMarker.setText(_translate("mainWindow", "Status: "))
+        self.OperationModeIcon.setToolTip(_translate("mainWindow", "Hot / Idle / Cold"))
         self.StatusText.setText(_translate("mainWindow", "Off"))
+        self.StatusIcon.setToolTip(_translate("mainWindow", "Device did not inform an error"))
+        self.SerialIndicatorIcon.setToolTip(_translate("mainWindow", "Serial comunication status"))
         self.settingsBox.setTitle(_translate("mainWindow", "Settings"))
         self.modeSelectorLabel.setText(_translate("mainWindow", "Mode:"))
         self.modeSelectorHotButton.setText(_translate("mainWindow", "Hot"))

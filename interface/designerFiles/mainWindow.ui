@@ -52,6 +52,9 @@
         </item>
         <item>
          <widget class="QLabel" name="OperationModeIcon">
+          <property name="toolTip">
+           <string>Hot / Idle / Cold</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -87,6 +90,9 @@
         </item>
         <item>
          <widget class="QLabel" name="StatusIcon">
+          <property name="toolTip">
+           <string>Device did not inform an error</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -102,6 +108,9 @@
             <width>50</width>
             <height>32</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Serial comunication status</string>
           </property>
           <property name="text">
            <string/>
