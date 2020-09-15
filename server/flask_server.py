@@ -106,13 +106,13 @@ def error_clear():
 
 def api_status():
     return {
-        "device": Commander.connection.port if Commander.connection_available else None,
-        "operation_mode": Commander.mode,
-        "target_temperature": Commander.target_temperature,
-        "last_measurement": Commander.last_measurement,
-        "time_since_last_measurement": time.monotonic() - Commander.last_measurement_timestamp if not Commander.last_measurement_timestamp == None else None,
-        "status_codes": Commander.device_status_codes,
-        "status_descriptions": Commander.device_status_descriptions
+        "device": SerialConnection.connection.port if SerialConnection.connection_available else None,
+        "operation_mode": SerialConnection.mode,
+        "target_temperature": SerialConnection.target_temperature,
+        "last_measurement": SerialConnection.last_measurement,
+        "time_since_last_measurement": time.monotonic() - SerialConnection.last_measurement_timestamp if not SerialConnection.last_measurement_timestamp == None else None,
+        "status_codes": SerialConnection.device_status_codes,
+        "status_descriptions": SerialConnection.device_status_descriptions
     }
 
 def no_connection():
