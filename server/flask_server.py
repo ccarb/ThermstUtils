@@ -40,6 +40,7 @@ def list_devices():
 
 @app.route('/open_connection', methods=['POST'])
 def open_connection():
+    if SerialConnection.connection_available: return connection_already_exists()
     device = request.json["device"]
     status = SerialConnection.connect_device(device)
     if status == 200: 
@@ -106,7 +107,7 @@ def temperature_out_of_range(request):
     return True
 
 def invalid_temperature():
-    return jsonify({"error": "Invalid temperature. It must be between 10 and 50"), 400
+    return jsonify({"error": "Invalid temperature. It must be between 10 and 50"}), 400
 
 def api_status():
     return {
@@ -120,7 +121,10 @@ def api_status():
     }
 
 def no_connection():
-    return jsonify("error": "You must stablish a connection with the device first."), 400
+    return jsonify({"error": "You must stablish a connection with the device first."}), 400
+
+def connection_already_exists():
+    return jsonify({"error": "You are trying to stablish a conection, but one already exists"}), 400
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
