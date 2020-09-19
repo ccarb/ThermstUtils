@@ -90,8 +90,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         status_error = status.get("status_codes", {}).get("error")
         if not status_error == 0:
             self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
-        
-
+            self.measurementTimer.stop()
 
     def updateGraph(self,temperature: float, target_temp=25.0):
         maximumTimeInterval=30
