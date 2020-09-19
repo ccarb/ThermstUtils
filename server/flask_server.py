@@ -54,7 +54,7 @@ def close_connection():
     if Commander.mode != None: Commander.stop()
     device = request.json["device"]
     response = SerialConnection.disconnect_device(device)
-    if "error" in response:
+    if "error" in response: # TODO this if is falopa
         status = 400
     else:
         status = 202
@@ -68,21 +68,17 @@ def get_temperature():
     if request.args.get('consumer') == "UI": response["status"] = api_status()
     return jsonify(response), 200
 
-@app.route('/set_temperature', methods=['POST'])
-def set_temperature():
-    if not SerialConnection.connection_available: return no_connection()
-    SerialConnection.cold(request.json["objective_temperature"])
-    return '', 202
-
 @app.route('/cold', methods=['POST'])
 def cold():
     if not SerialConnection.connection_available: return no_connection()
+    if temperature_out_of_range(request): return invalid_temperature()
     SerialConnection.cold(request.json["objective_temperature"])
     return '', 202
 
 @app.route('/hot', methods=['POST'])
 def hot():
     if not SerialConnection.connection_available: return no_connection()
+    if temperature_out_of_range(request): return invalid_temperature()
     SerialConnection.hot(request.json["objective_temperature"])
     return '', 202
 
@@ -104,6 +100,14 @@ def error_clear():
     SerialConnection.error_clear()
     return '', 202
 
+def temperature_out_of_range(request):
+    if 10 <= float(request.json["objective_temperature"]) <= 50:
+        return False
+    return True
+
+def invalid_temperature():
+    return jsonify({"error": "Invalid temperature. It must be between 10 and 50"), 400
+
 def api_status():
     return {
         "device": SerialConnection.connection.port if SerialConnection.connection_available else None,
@@ -116,7 +120,7 @@ def api_status():
     }
 
 def no_connection():
-    return "You must stablish a connection with the device first.", 400
+    return jsonify("error": "You must stablish a connection with the device first."), 400
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
