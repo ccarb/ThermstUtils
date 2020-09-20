@@ -274,7 +274,6 @@ class Ui_mainWindow(object):
         font.setPointSize(14)
         self.temperatureDisplay.setFont(font)
         self.temperatureDisplay.setMouseTracking(True)
-        self.temperatureDisplay.setAutoFillBackground(False)
         self.temperatureDisplay.setLocale(QtCore.QLocale(QtCore.QLocale.English, QtCore.QLocale.UnitedStates))
         self.temperatureDisplay.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.temperatureDisplay.setFrameShadow(QtWidgets.QFrame.Raised)

@@ -47,17 +47,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphWidget.setBackground(color)
         self.graphWidget.setLabel('bottom', 'Time [s]')
         self.graphWidget.setLabel('left', 'Temperature [ºC]')
-        self.graphWidget.setYRange(-10,50)
+        self.graphWidget.showGrid(x=True, y=True)
+        self.graphWidget.setYRange(0,60)
         self.graphWidget.setMouseEnabled(x=False, y=False)
         self.graphWidget.setMenuEnabled(False)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
+        ticks = range(0, 65, 5)
+        ticks = [list(zip(ticks, ticks))]
+        self.graphWidget.getPlotItem().getAxis('left').setTicks(ticks)
+        self.plotDesiredTemp = self.graphWidget.plot([0],[0], pen=pg.mkPen(color=(0, 0, 255), width=2))
 
     def updateTemperature(self):
         response = flaskRequests.readTemperature()
         if response == "ServerError": return self.communicationError()
         newTemp = float(response["temperature"])
-        self.updateGraph(newTemp)
+        target_temp = response.get("status", {}).get("target_temperature")
+        target_temp = float(target_temp) if not target_temp == None else -99
+        self.updateGraph(newTemp, target_temp)
         newTemp = "{T:.1f}".format(T=newTemp)
         self.temperatureDisplay.setText(newTemp + 'ºC')
         self.updateStatus(response["status"])
@@ -86,10 +93,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         status_error = status.get("status_codes", {}).get("error")
         if not status_error == 0:
             self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
-        
+            self.measurementTimer.stop()
 
-
-    def updateGraph(self,temperature: float):
+    def updateGraph(self,temperature: float, target_temp=25.0):
         maximumTimeInterval=30
         timeIncrement=self.freqMeasurementInputBox.value()/1000
         if self.graphData["x"]==[]:
@@ -102,6 +108,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphData["x"].append(time)
         self.graphData["y"].append(temperature)
         self.plotLine.setData(self.graphData["x"],self.graphData["y"])
+        self.plotDesiredTemp.setData(self.graphData["x"], [target_temp]*len(self.graphData["x"]))
     
     def runConnectionDialog(self):
         self.connDialog.devicesList.clear()
@@ -113,7 +120,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 self.device={"device" : self.connDialog.devicesList.currentText()}
                 flaskRequests.openDevice(self.device)
                 status = flaskRequests.apiStatus()
-                print(status)
                 if status.get("status_codes", {}).get("error") == 0:
                     self.measurementTimer.start(self.freqMeasurementInputBox.value())
                     self.freqMeasurementInputBox.valueChanged['int'].connect(self.measurementTimer.start)

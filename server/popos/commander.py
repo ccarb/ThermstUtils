@@ -144,14 +144,28 @@ class Command():
         return list(struct.unpack(self.receive_data_format, raw_data))
 
     def perform(self, serial_connection, data):
-        serial_connection.reset_input_buffer()
-        serial_connection.reset_output_buffer()
-        formated_data = self.format_input(data)
-        self.send_chunk(serial_connection, formated_data)
-        return self.read_chunk(serial_connection)
+        try:
+            serial_connection.reset_input_buffer()
+            serial_connection.reset_output_buffer()
+            formated_data = self.format_input(data)
+            self.send_chunk(serial_connection, formated_data)
+            return self.read_chunk(serial_connection)
+        except Exception as e:
+            Commander.logger.info(e)
+            Commander.connection = None
+            Commander.connection_available = False
+            return self.error_occured()
 
     def format_input(self, data):
         formated = []
         for index, variable in enumerate(self.parameters["input"]):
             formated.append(self.data_formatter[variable["type"]](data[index]))
         return tuple(formated)
+    
+    def error_occured(self):
+        error_status = [int(-1)]
+        error_code = [int(-1)]
+        expected_response = []
+        for variable in self.parameters["output"]:
+            expected_response.append(self.data_formatter[variable["type"]](0))
+        return error_status + error_code + expected_response

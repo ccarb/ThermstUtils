@@ -1,6 +1,6 @@
 # ThermstUtils
 User interface for thermal stimulator configuration and maintenance
-
+![image](https://user-images.githubusercontent.com/26523727/93720441-6c8f0a80-fb5f-11ea-9aab-c2339f5ea8b8.png)
 ## Setup
 
 ```
