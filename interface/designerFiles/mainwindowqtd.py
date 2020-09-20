@@ -358,7 +358,7 @@ class Ui_mainWindow(object):
         self.modeSelectorHotButton.setText(_translate("mainWindow", "Hot"))
         self.modeSelectorColdButton.setText(_translate("mainWindow", "Cold"))
         self.temperatureLabel.setText(_translate("mainWindow", "Temperature:"))
-        self.temperatureInputBox.setSuffix(_translate("mainWindow", "ºC"))
+        self.temperatureInputBox.setSuffix(_translate("mainWindow", "°C"))
         self.freqMeasurementLabel.setText(_translate("mainWindow", "Measurment Frecuency:"))
         self.freqMeasurementInputBox.setSuffix(_translate("mainWindow", " ms"))
         self.restorePresetsButton.setText(_translate("mainWindow", "Restore presets"))
