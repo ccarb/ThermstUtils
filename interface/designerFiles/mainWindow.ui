@@ -211,10 +211,10 @@
                 <string>ºC</string>
                </property>
                <property name="minimum">
-                <number>-10</number>
+                <number>10</number>
                </property>
                <property name="maximum">
-                <number>50</number>
+                <number>40</number>
                </property>
                <property name="value">
                 <number>25</number>
@@ -811,7 +811,7 @@
      <x>0</x>
      <y>0</y>
      <width>729</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
