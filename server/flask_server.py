@@ -52,7 +52,7 @@ def open_connection():
 @app.route('/close_connection', methods=['DELETE'])
 def close_connection():
     if not SerialConnection.connection_available: return no_connection()
-    if Commander.mode != None: Commander.stop()
+    if SerialConnection.mode != None: SerialConnection.stop()
     device = request.json["device"]
     response = SerialConnection.disconnect_device(device)
     if "error" in response: # TODO this if is falopa

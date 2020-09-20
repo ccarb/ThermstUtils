@@ -4,9 +4,11 @@
         "1": "Cooling",
         "2": "Heating",
         "3": "Cold mode goal temperature reached",
-        "4": "Hot mode goal temperature reached"
+        "4": "Hot mode goal temperature reached",
+        "-1": "Serial comunication error"
     },
     "errors": {
+        "-1": "Serial comunication error",
         "0": "Device is OK",
         "1": "Thermistor 1 failed",
         "2": "Thermistor 2 failed",
