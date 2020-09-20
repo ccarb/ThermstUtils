@@ -52,12 +52,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphWidget.setMouseEnabled(x=False, y=False)
         self.graphWidget.setMenuEnabled(False)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
+        self.plotDesiredTemp = self.graphWidget.plot([0],[0], pen=pg.mkPen(color=(0, 0, 255), width=2, style=QtCore.Qt.DashLine))
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
         ticks = range(0, 65, 5)
         ticks = [list(zip(ticks, ticks))]
         self.graphWidget.getPlotItem().getAxis('left').setTicks(ticks)
-        self.plotDesiredTemp = self.graphWidget.plot([0],[0], pen=pg.mkPen(color=(0, 0, 255), width=2))
-
+        
     def updateTemperature(self):
         response = flaskRequests.readTemperature()
         if response == "ServerError": return self.communicationError()
@@ -107,8 +107,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 self.graphData["y"]=self.graphData["y"][1:]
         self.graphData["x"].append(time)
         self.graphData["y"].append(temperature)
-        self.plotLine.setData(self.graphData["x"],self.graphData["y"])
         self.plotDesiredTemp.setData(self.graphData["x"], [target_temp]*len(self.graphData["x"]))
+        self.plotLine.setData(self.graphData["x"],self.graphData["y"])
     
     def runConnectionDialog(self):
         self.connDialog.devicesList.clear()
