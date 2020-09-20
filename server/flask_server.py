@@ -75,7 +75,7 @@ def get_temperature():
 @app.route('/restart_timer', methods=['POST'])
 def restart_timer():
     SerialConnection.reference_time = time.monotonic()
-    return jsonify({ "message": "Successfuly restarted timer", "reference": SerialConnection.reference_time}), 200
+    return jsonify({ "message": "Successfuly restarted timer"), 200
 
 @app.route('/cold', methods=['POST'])
 def cold():
