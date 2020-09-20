@@ -19,15 +19,18 @@ class FakeMeasurements(object):
         self.mode = None
         self.target_temperature = None
         self.last_measurement = None
-        self.device_status_codes={"status":"0","error":"0"}
-        self.device_status_descriptions={"status":"Using testing mode","error":"No errors"}
+        self.last_measurement_timestamp = None
+        self.device_status_codes={"status":0,"error":4}
+        self.device_status_descriptions={"status":"Using testing mode","error":"Error description"}
 
 
     def connect_device(self, device_name, default_port=None):
-        for device in device_list:
+        for device in self.device_list:
             if device["port"] == device_name:
                 self.connection.port = device_name
                 self.connection_available = True
+        if device_name == self.device_list[0]["port"]:
+            self.device_status_codes["error"]=0
         return 200
 
     def list_devices(self):
