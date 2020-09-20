@@ -6,6 +6,7 @@ import interface.flaskRequests as flaskRequests
 from interface.designerFiles.mainwindowqtd import Ui_mainWindow
 from server import flask_server
 from interface.connectionDialog import ConnectionDialog
+from interface.errorDialog import ErrorDialog
 
 class Flask_server_thread(QtCore.QThread):
     port = int(flask_server.os.environ.get("PORT", 5000))
@@ -32,6 +33,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.device={}
         self.actionConnectDevice.triggered.connect(self.runConnectionDialog)
         self.actionDisconnect_Device.triggered.connect(self.disconnectDevice)
+
+        self.errDialog=ErrorDialog()
 
         self.temperature=25
 
@@ -127,6 +130,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 else:
                     flaskRequests.closeDevice(self.device)
                     self.device = {}
+                    self.errDialog.exec_()
 
     
     def disconnectDevice(self):

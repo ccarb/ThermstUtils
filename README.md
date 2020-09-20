@@ -26,7 +26,7 @@ python3 main.py
 Powershell:
 ``` powershell
 $env:EnableLogging = "True"
-$env:deviceIndependant = True
+$env:deviceIndependant = "True"
 ```
 Windows Console:
 ```

@@ -14,6 +14,12 @@ def makePyFromUi():
     print("Translating UI file: "+uifile+" to python module: "+pyfileName+" ...")
     uic.compileUi(uifile,pyfile)
     print("Done")
+    uifile="interface/designerFiles/errorDialog.ui"
+    pyfileName="interface/designerFiles/errordialogqtd.py"
+    pyfile=open(pyfileName,"w")
+    print("Translating UI file: "+uifile+" to python module: "+pyfileName+" ...")
+    uic.compileUi(uifile,pyfile)
+    print("Done")
 
 if __name__ == "__main__":
     makePyFromUi()
