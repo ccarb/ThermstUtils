@@ -17,6 +17,7 @@ class Commander():
     target_temperature = None
     last_measurement = None
     last_measurement_timestamp = None
+    reference_time = time.monotonic()
     mode = None
 
     def __init__(self):
