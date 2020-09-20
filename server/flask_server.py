@@ -63,11 +63,19 @@ def close_connection():
 
 @app.route('/read_temperature', methods=['GET'])
 def get_temperature():
+    start_time = time.monotonic() - SerialConnection.reference_time
     if not SerialConnection.connection_available: return no_connection()
     temperature = SerialConnection.read_temperature()
     response = { "temperature": str(temperature) }
     if request.args.get('consumer') == "UI": response["status"] = api_status()
+    finish_time = time.monotonic() - SerialConnection.reference_time
+    response["time"] = (finish_time + start_time)/2
     return jsonify(response), 200
+
+@app.route('/restart_timer', methods=['POST'])
+def restart_timer():
+    SerialConnection.reference_time = time.monotonic()
+    return jsonify({ "message": "Successfuly restarted timer"), 200
 
 @app.route('/cold', methods=['POST'])
 def cold():
