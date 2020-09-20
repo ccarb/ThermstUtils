@@ -24,7 +24,7 @@ class Commander():
         self.load_commands()
 
     def load_commands(self):
-        with open('server/popos/commands.json') as json_file:
+        with open('json/commands.json') as json_file:
             commands = json.load(json_file)
         for index, item in enumerate(commands):
             self.commands[item["name"]] = Command(item, index)
