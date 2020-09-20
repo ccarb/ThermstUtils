@@ -2,12 +2,16 @@
 # if using python 3.8 use pyinstaller development version
 
 block_cipher = None
+added_files = [
+    ('json\\commands.json','json\\'),
+    ('json\\status_descriptions.json','json\\'),
+]
 
 
 a = Analysis(['main.py'],
-             pathex=['D:\\Users\\Ceci\\Documents\\Facu\\ThermstUtils'],
+             pathex=['D:\\Users\\Wider\\Visual Studio\\ThermstUtils\\'],
              binaries=[],
-             datas=[],
+             datas=added_files,
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

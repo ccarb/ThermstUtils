@@ -1,7 +1,7 @@
 import json
 
 class StatusParser():
-    with open('server/popos/status_descriptions.json') as json_file:
+    with open('json/status_descriptions.json') as json_file:
         descriptions = json.load(json_file)
     status_descriptions = descriptions["status"]
     errors_descriptions = descriptions["errors"]
