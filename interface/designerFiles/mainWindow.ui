@@ -725,7 +725,7 @@
               <bool>true</bool>
              </property>
              <property name="autoFillBackground">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="locale">
               <locale language="English" country="UnitedStates"/>
@@ -811,7 +811,7 @@
      <x>0</x>
      <y>0</y>
      <width>729</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
