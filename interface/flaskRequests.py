@@ -28,7 +28,7 @@ def stopTemp():
 
 def readTemperature():
     r=requests.get( serverUrl + "read_temperature?consumer=UI")
-    if not r.status_code == 200: return "ServerError"
+    if not r.status_code == 200: return {"error": "ServerError"}
     r=r.json()
     return r
 
@@ -37,5 +37,5 @@ def shutdownServer():
 
 def apiStatus():
     r = requests.get(serverUrl)
-    if not r.status_code == 200: return "ServerError"
+    if not r.status_code == 200: return {"error": "ServerError"}
     return r.json()

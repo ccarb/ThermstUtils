@@ -60,7 +60,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         
     def updateTemperature(self):
         response = flaskRequests.readTemperature()
-        if response == "ServerError": return self.communicationError()
+        if response.get("error") == "ServerError": return self.communicationError()
         newTemp = float(response["temperature"])
         target_temp = response.get("status", {}).get("target_temperature")
         target_temp = float(target_temp) if not target_temp == None else -99
@@ -94,6 +94,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         if not status_error == 0:
             self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
             self.measurementTimer.stop()
+            self.errDialog.errorDiagInfoLabel.setText(status.get("status_descriptions", {}).get("error"))
+            self.errDialog.exec_()
+            flaskRequests.closeDevice(self.device)
+            self.close()
 
     def updateGraph(self,temperature: float, target_temp=25.0):
         maximumTimeInterval=30
@@ -130,6 +134,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 else:
                     flaskRequests.closeDevice(self.device)
                     self.device = {}
+                    self.errDialog.errorDiagInfoLabel.setText("Device not found at selected port.")
                     self.errDialog.exec_()
 
     

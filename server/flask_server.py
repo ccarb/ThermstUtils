@@ -75,7 +75,7 @@ def get_temperature():
 @app.route('/restart_timer', methods=['POST'])
 def restart_timer():
     SerialConnection.reference_time = time.monotonic()
-    return jsonify({ "message": "Successfuly restarted timer"), 200
+    return jsonify({ "message": "Successfuly restarted timer" }), 200
 
 @app.route('/cold', methods=['POST'])
 def cold():
@@ -110,12 +110,12 @@ def error_clear():
     return '', 202
 
 def temperature_out_of_range(request):
-    if 10 <= float(request.json["objective_temperature"]) <= 50:
+    if 10 <= float(request.json["objective_temperature"]) <= 40:
         return False
     return True
 
 def invalid_temperature():
-    return jsonify({"error": "Invalid temperature. It must be between 10 and 50"}), 400
+    return jsonify({"error": "Invalid temperature. It must be between 10 and 40"}), 400
 
 def api_status():
     return {

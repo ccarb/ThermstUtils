@@ -46,7 +46,9 @@ class Commander():
                     Commander.connection = None
                     return 404
                 try:
-                    self.status()
+                    device_response = self.status()
+                    if not device_response[0] == 0:
+                        raise Exception("Incorrect device")
                 except Exception as e:
                     Commander.logger.info('Selected device is invalid: %s', p.device)
                     Commander.logger.info(e)
@@ -135,13 +137,11 @@ class Command():
 
     def send_chunk(self, serial_connection, data):
         raw_data = struct.pack(self.send_data_format, self.serial_identifier, *data)
-        Commander.logger.info(raw_data)
         serial_connection.write(raw_data)
         return True
 
     def read_chunk(self, serial_connection):
         raw_data = serial_connection.read(self.receive_data_buffer_size)
-        Commander.logger.info(raw_data)
         return list(struct.unpack(self.receive_data_format, raw_data))
 
     def perform(self, serial_connection, data):
