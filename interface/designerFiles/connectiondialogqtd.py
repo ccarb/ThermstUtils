@@ -65,8 +65,8 @@ class Ui_connectionDialog(object):
         self.modeSelectorLabel.setToolTip(_translate("connectionDialog", "Select the mode of operation"))
         self.modeSelectorLabel.setText(_translate("connectionDialog", "Mode:"))
         self.paradigmModeButton.setToolTip(_translate("connectionDialog", "Paradigm: the program has no interaction with the device"))
-        self.paradigmModeButton.setText(_translate("connectionDialog", "Paradigm"))
+        self.paradigmModeButton.setText(_translate("connectionDialog", "Spectate"))
         self.maintenanceModeButton.setToolTip(_translate("connectionDialog", "Maintenance: Program has full control of the device"))
-        self.maintenanceModeButton.setText(_translate("connectionDialog", "Maintenance/Diagnostics"))
+        self.maintenanceModeButton.setText(_translate("connectionDialog", "Maintenance"))
 
 import resources_rc

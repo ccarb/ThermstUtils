@@ -75,7 +75,7 @@
       <string>Paradigm: the program has no interaction with the device</string>
      </property>
      <property name="text">
-      <string>Paradigm</string>
+      <string>Spectate</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -88,7 +88,7 @@
       <string>Maintenance: Program has full control of the device</string>
      </property>
      <property name="text">
-      <string>Maintenance/Diagnostics</string>
+      <string>Maintenance</string>
      </property>
     </widget>
    </item>
