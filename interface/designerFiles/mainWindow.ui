@@ -813,6 +813,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionUserManual"/>
+    <addaction name="actionExamples"/>
     <addaction name="actionAboutThermstUtil"/>
    </widget>
    <widget class="QMenu" name="menuConnect_Device">
@@ -872,6 +873,11 @@
   <action name="actionDisconnect_Device">
    <property name="text">
     <string>Disconnect Device</string>
+   </property>
+  </action>
+  <action name="actionExamples">
+   <property name="text">
+    <string>Examples</string>
    </property>
   </action>
  </widget>

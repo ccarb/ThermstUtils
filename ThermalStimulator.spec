@@ -5,6 +5,9 @@ block_cipher = None
 added_files = [
     ('json\\commands.json','json\\'),
     ('json\\status_descriptions.json','json\\'),
+    ('docs\\Manual.pdf', 'docs\\'),
+    ('examples\\exampleParadigm.m', 'examples\\'),
+    ('examples\\lib.m', 'examples\\')
 ]
 
 
