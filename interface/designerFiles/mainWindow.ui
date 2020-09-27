@@ -877,7 +877,7 @@
   </action>
   <action name="actionExamples">
    <property name="text">
-    <string>Examples</string>
+    <string>Matlab example</string>
    </property>
   </action>
  </widget>

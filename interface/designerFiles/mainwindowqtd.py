@@ -378,7 +378,7 @@ class Ui_mainWindow(object):
         self.actionReadTemperature.setText(_translate("mainWindow", "ReadTemperature"))
         self.actionConnectDevice.setText(_translate("mainWindow", "Connect Device..."))
         self.actionDisconnect_Device.setText(_translate("mainWindow", "Disconnect Device"))
-        self.actionExamples.setText(_translate("mainWindow", "Examples"))
+        self.actionExamples.setText(_translate("mainWindow", "Matlab example"))
 
 from pyqtgraph import PlotWidget
 import resources_rc
