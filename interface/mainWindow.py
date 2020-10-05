@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
+import os
 
 from config import *
 import interface.flaskRequests as flaskRequests
@@ -40,6 +41,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
         self.actionStart.triggered.connect(self.startDevice)
         self.actionStop.triggered.connect(self.stopDevice)
+        self.actionUserManual.triggered.connect(self.openUserManual)
+        self.actionExamples.triggered.connect(self.openExamples)
+
         self.graphData={'x':[],'y':[]}
 
     def configurePlot(self):
@@ -167,3 +171,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     
     def communicationError(self):
         pass
+
+    def openUserManual(self):
+        path = os.path.abspath("docs/Manual.pdf")
+        os.startfile(path, 'open')
+    
+    def openExamples(self):
+        path = os.path.abspath("examples/exampleParadigm.m")
+        os.startfile(path, 'open')

@@ -332,7 +332,10 @@ class Ui_mainWindow(object):
         self.actionConnectDevice.setObjectName("actionConnectDevice")
         self.actionDisconnect_Device = QtWidgets.QAction(mainWindow)
         self.actionDisconnect_Device.setObjectName("actionDisconnect_Device")
+        self.actionExamples = QtWidgets.QAction(mainWindow)
+        self.actionExamples.setObjectName("actionExamples")
         self.menuHelp.addAction(self.actionUserManual)
+        self.menuHelp.addAction(self.actionExamples)
         self.menuHelp.addAction(self.actionAboutThermstUtil)
         self.menuConnect_Device.addAction(self.actionConnectDevice)
         self.menuConnect_Device.addAction(self.actionDisconnect_Device)
@@ -375,6 +378,7 @@ class Ui_mainWindow(object):
         self.actionReadTemperature.setText(_translate("mainWindow", "ReadTemperature"))
         self.actionConnectDevice.setText(_translate("mainWindow", "Connect Device..."))
         self.actionDisconnect_Device.setText(_translate("mainWindow", "Disconnect Device"))
+        self.actionExamples.setText(_translate("mainWindow", "Matlab example"))
 
 from pyqtgraph import PlotWidget
 import resources_rc
