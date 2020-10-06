@@ -769,7 +769,7 @@
             <item>
              <widget class="QLabel" name="freqMeasurementLabel">
               <property name="text">
-               <string>Measurment Frecuency:</string>
+               <string>Measurement Frequency:</string>
               </property>
              </widget>
             </item>

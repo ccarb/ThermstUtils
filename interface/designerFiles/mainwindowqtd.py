@@ -366,7 +366,7 @@ class Ui_mainWindow(object):
         self.temperatureDisplay.setText(_translate("mainWindow", "--"))
         self.startButton.setText(_translate("mainWindow", "Start"))
         self.stopButton.setText(_translate("mainWindow", "Stop"))
-        self.freqMeasurementLabel.setText(_translate("mainWindow", "Measurment Frecuency:"))
+        self.freqMeasurementLabel.setText(_translate("mainWindow", "Measurement Frequency:"))
         self.freqMeasurementInputBox.setSuffix(_translate("mainWindow", " ms"))
         self.menuHelp.setTitle(_translate("mainWindow", "Help"))
         self.menuConnect_Device.setTitle(_translate("mainWindow", "Connection"))
