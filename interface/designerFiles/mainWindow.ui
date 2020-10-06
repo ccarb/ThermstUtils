@@ -769,7 +769,7 @@
             <item>
              <widget class="QLabel" name="freqMeasurementLabel">
               <property name="text">
-               <string>Measurment Frecuency:</string>
+               <string>Measurement Frequency:</string>
               </property>
              </widget>
             </item>
@@ -779,13 +779,16 @@
                <string> ms</string>
               </property>
               <property name="minimum">
-               <number>500</number>
+               <number>250</number>
               </property>
               <property name="maximum">
-               <number>10000</number>
+               <number>1000</number>
+              </property>
+              <property name="singleStep">
+               <number>50</number>
               </property>
               <property name="value">
-               <number>1000</number>
+               <number>250</number>
               </property>
              </widget>
             </item>
