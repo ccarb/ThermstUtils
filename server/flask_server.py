@@ -31,6 +31,7 @@ else:
     
 @app.route('/')
 def status():
+    app.logger.info(SerialConnection.status())
     return jsonify(api_status())
 
 @app.route('/list_devices', methods=['GET'])
@@ -110,9 +111,11 @@ def error_clear():
     return '', 200
 
 def temperature_out_of_range(request):
-    if 10 <= float(request.json["objective_temperature"]) <= 40:
-        return False
-    return True
+    try:
+        if 10 <= float(request.json["objective_temperature"]) <= 40:
+            return False
+    except:
+        return True
 
 def invalid_temperature():
     return jsonify({"error": "Invalid temperature. It must be between 10 and 40"}), 400
