@@ -22,4 +22,8 @@ class StatusParser():
     
     @classmethod
     def error_state(cls, error):
-        return StatusParser.errors_descriptions[str(error)]
+        error_bits = bin(int(error))[2:].rjust(8, '0')
+        descriptions = []
+        for index, bit in enumerate(reversed(error_bits)):
+            if bit == '1': descriptions.append(StatusParser.errors_descriptions[str(index)])
+        return descriptions

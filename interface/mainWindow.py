@@ -98,10 +98,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         if not status_error == 0:
             self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
             self.measurementTimer.stop()
-            self.errDialog.errorDiagInfoLabel.setText(status.get("status_descriptions", {}).get("error"))
+            self.errDialog.errorDiagInfoLabel.setText(self.parse_error_descriptions(status))
             self.errDialog.exec_()
             flaskRequests.closeDevice(self.device)
             self.close()
+
+    def parse_error_descriptions(self, status):
+        errors = status.get("status_descriptions", {}).get("error")
+        return '\n'.join(errors)
 
     def updateGraph(self,temperature: float, target_temp=25.0):
         maximumTimeInterval=30

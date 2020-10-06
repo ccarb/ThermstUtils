@@ -100,6 +100,7 @@ class Commander():
     
     def read_temperature(self):
         temp = self.commands["read_temperature"].perform(Commander.connection, [])
+        temp[-1] = round(temp[-1], 1)
         Commander.last_measurement = temp[-1]
         Commander.last_measurement_timestamp = time.monotonic()
         Commander.update_status(temp[0:2])
@@ -119,7 +120,7 @@ class Commander():
     
 class Command():
     endianness = '<'
-    parse_data_type = { "uint8_t": "b",
+    parse_data_type = { "uint8_t": "B",
                         "float": "f" }
     data_size = { "uint8_t": 1,
                   "float": 4 }
@@ -132,7 +133,7 @@ class Command():
         self.serial_identifier = index
         self.send_data_format = self.endianness + 'b' # Char for the command identified by the array position.
         self.send_data_format += ''.join([ self.parse_data_type[a["type"]] for a in parameters["input"] ])
-        self.receive_data_format = self.endianness + 'bb' + ''.join([ self.parse_data_type[a["type"]] for a in parameters["output"] ])
+        self.receive_data_format = self.endianness + 'BB' + ''.join([ self.parse_data_type[a["type"]] for a in parameters["output"] ])
         self.receive_data_buffer_size = sum([ self.data_size[a["type"]] for a in parameters["output"] ]) + 2
 
     def send_chunk(self, serial_connection, data):
