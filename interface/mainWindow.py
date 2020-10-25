@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 import pyqtgraph as pg
+import os
 
 from config import *
 import interface.flaskRequests as flaskRequests
@@ -40,6 +41,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
 
         self.actionStart.triggered.connect(self.startDevice)
         self.actionStop.triggered.connect(self.stopDevice)
+        self.actionUserManual.triggered.connect(self.openUserManual)
+        self.actionExamples.triggered.connect(self.openExamples)
+
         self.graphData={'x':[],'y':[]}
 
     def configurePlot(self):
@@ -94,10 +98,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         if not status_error == 0:
             self.StatusIcon.setPixmap(QtGui.QPixmap(":/icons/danger.png"))
             self.measurementTimer.stop()
-            self.errDialog.errorDiagInfoLabel.setText(status.get("status_descriptions", {}).get("error"))
+            self.errDialog.errorDiagInfoLabel.setText(self.parse_error_descriptions(status))
             self.errDialog.exec_()
             flaskRequests.closeDevice(self.device)
             self.close()
+
+    def parse_error_descriptions(self, status):
+        errors = status.get("status_descriptions", {}).get("error")
+        return '\n'.join(errors)
 
     def updateGraph(self,temperature: float, target_temp=25.0):
         maximumTimeInterval=30
@@ -167,3 +175,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     
     def communicationError(self):
         pass
+
+    def openUserManual(self):
+        path = os.path.abspath("docs/Manual.pdf")
+        os.startfile(path, 'open')
+    
+    def openExamples(self):
+        path = os.path.abspath("examples/exampleParadigm.m")
+        os.startfile(path, 'open')
