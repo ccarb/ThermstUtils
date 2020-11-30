@@ -5,17 +5,19 @@
         "2": "Heating",
         "3": "Cold mode goal temperature reached",
         "4": "Hot mode goal temperature reached",
+        "5": "Cold mode pwm set",
+        "6": "Hot mode pwm set",
+        "7": "Error",
         "-1": "Serial comunication error"
     },
     "errors": {
         "-1": "Serial comunication error",
-        "0": "Device is OK",
-        "1": "Thermistor 1 failed",
-        "2": "Thermistor 2 failed",
-        "3": "Temperature difference between thermistors detected",
-        "4": "Calibration failure",
-        "5": "Water cooler radiator fan failed",
-        "6": "Upper temperature out of range",
-        "7": "Lower temperature out of range"
+        "0": "Thermistor 1 failed",
+        "1": "Thermistor 2 failed",
+        "2": "Temperature difference between thermistors detected",
+        "3": "Calibration failure",
+        "4": "Water cooler radiator fan failed",
+        "5": "Upper temperature out of range",
+        "6": "Lower temperature out of range"
     }
 }

@@ -121,10 +121,13 @@ class Commander():
 class Command():
     endianness = '<'
     parse_data_type = { "uint8_t": "B",
+                        "int8_t": "b",
                         "float": "f" }
     data_size = { "uint8_t": 1,
+                  "int8_t": 1,
                   "float": 4 }
     data_formatter = { "uint8_t": int,
+                       "int8_t": int,
                        "float": float }
 
     def __init__(self, parameters, index):
