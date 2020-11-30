@@ -59,7 +59,7 @@ def close_connection():
     if "error" in response: # TODO this if is falopa
         status = 400
     else:
-        status = 200
+        status = 202
     return jsonify(response), status
 
 @app.route('/read_temperature', methods=['GET'])
@@ -67,7 +67,7 @@ def get_temperature():
     start_time = time.monotonic() - SerialConnection.reference_time
     if not SerialConnection.connection_available: return no_connection()
     temperature = SerialConnection.read_temperature()
-    response = { "temperature": temperature }
+    response = { "temperature": str(temperature) }
     if request.args.get('consumer') == "UI": response["status"] = api_status()
     finish_time = time.monotonic() - SerialConnection.reference_time
     response["time"] = (finish_time + start_time)/2
@@ -83,32 +83,32 @@ def cold():
     if not SerialConnection.connection_available: return no_connection()
     if temperature_out_of_range(request): return invalid_temperature()
     SerialConnection.cold(request.json["objective_temperature"])
-    return '', 200
+    return '', 202
 
 @app.route('/hot', methods=['POST'])
 def hot():
     if not SerialConnection.connection_available: return no_connection()
     if temperature_out_of_range(request): return invalid_temperature()
     SerialConnection.hot(request.json["objective_temperature"])
-    return '', 200
+    return '', 202
 
 @app.route('/stop_device', methods=['POST'])
 def stop_device():
     if not SerialConnection.connection_available: return no_connection()
     SerialConnection.stop()
-    return '', 200
+    return '', 202
 
 @app.route('/error', methods=['POST'])
 def error():
     if not SerialConnection.connection_available: return no_connection()
     SerialConnection.error_set(request.json["error"])
-    return '', 200
+    return '', 202
 
 @app.route('/error_clear', methods=['POST'])
 def error_clear():
     if not SerialConnection.connection_available: return no_connection()
     SerialConnection.error_clear()
-    return '', 200
+    return '', 202
 
 def temperature_out_of_range(request):
     try:

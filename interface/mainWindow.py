@@ -52,13 +52,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.graphWidget.setLabel('bottom', 'Time [s]')
         self.graphWidget.setLabel('left', 'Temperature [ºC]')
         self.graphWidget.showGrid(x=True, y=True)
-        self.graphWidget.setYRange(0,60)
+        self.graphWidget.setYRange(8,42)
         self.graphWidget.setMouseEnabled(x=False, y=False)
         self.graphWidget.setMenuEnabled(False)
         pen = pg.mkPen(color=(255, 0, 0), width=2)
         self.plotDesiredTemp = self.graphWidget.plot([0],[0], pen=pg.mkPen(color=(0, 0, 255), width=2, style=QtCore.Qt.DashLine))
         self.plotLine=self.graphWidget.plot([0],[0],pen=pen)
-        ticks = range(0, 65, 5)
+        ticks = range(10, 42, 5)
         ticks = [list(zip(ticks, ticks))]
         self.graphWidget.getPlotItem().getAxis('left').setTicks(ticks)
         
@@ -117,6 +117,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             if (self.graphData["x"][-1]-self.graphData["x"][0])>maximumTimeInterval:
                 self.graphData["x"]=self.graphData["x"][1:]
                 self.graphData["y"]=self.graphData["y"][1:]
+                self.plotLine.setX
         self.graphData["x"].append(time)
         self.graphData["y"].append(temperature)
         self.plotDesiredTemp.setData(self.graphData["x"], [target_temp]*len(self.graphData["x"]))
